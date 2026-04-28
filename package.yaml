@@ -1,0 +1,129 @@
+name: qsfgames
+version: 0.1.0.0
+github: "amogga/qsfgames-haskell"
+license: BSD-3-Clause
+author: "Ahmed Mogahed"
+maintainer: "a.mogahed@inginne.com"
+copyright: "2025 Ahmed Mogahed"
+
+extra-source-files:
+  - README.md
+  - CHANGELOG.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description: Please see the README on GitHub at <https://github.com/amogga/qsfgames-haskell#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+  - mtl
+  - containers
+  - unordered-containers
+  - dirichlet
+  - random
+  - vector
+  - matrix
+  - split
+  - diagrams-lib
+  - diagrams-cairo
+
+ghc-options:
+  - -Wall
+  - -Wcompat
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wmissing-export-lists
+  - -Wmissing-home-modules
+  - -Wpartial-fields
+  - -Wredundant-constraints
+
+default-extensions:
+  - DeriveAnyClass
+  - StandaloneDeriving
+  - DeriveGeneric
+  - RankNTypes
+  # - ImpredicativeTypes
+  # - NoMonomorphismRestriction
+  - FlexibleContexts
+  - FlexibleInstances
+  - UndecidableInstances
+  - MultiParamTypeClasses
+  - RecordWildCards
+  - LambdaCase
+  - MonoLocalBinds
+  # - TypeFamilies
+
+library:
+  source-dirs: src
+  pkg-config-dependencies:
+    - pangocairo
+
+executables:
+  qsfgames-exe:
+    main: Main.hs
+    source-dirs: app
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - qsfgames
+  example1:
+    main: Main.hs
+    source-dirs: examples/Example1
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - qsfgames
+  example2:
+    main: Main.hs
+    source-dirs: examples/Example2
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - qsfgames
+  example3:
+    main: Main.hs
+    source-dirs: examples/Example3
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - qsfgames
+
+benchmarks:
+  qsfgames-bench:
+    main: Benchmark.hs
+    source-dirs: bench
+    dependencies:
+      - qsfgames
+      - deepseq
+      - base
+      - vector
+      - parallel
+      - criterion
+
+tests:
+  qsfgames-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - qsfgames
+      - hspec
+      - QuickCheck
+      - ieee754

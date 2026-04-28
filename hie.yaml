@@ -1,0 +1,24 @@
+cradle:
+  multi:
+    - path: "./.stack-work"
+      config:
+        cradle:
+          none:
+    - path: "./"
+      config:
+        cradle:
+          stack:
+            - path: "./app"
+              component: "qsfgames:exe:qsfgames-exe"
+            - path: "./src"
+              component: "qsfgames:lib"
+            - path: "./examples/Example1"
+              component: "qsfgames:exe:example1"
+            - path: "./examples/Example2"
+              component: "qsfgames:exe:example2"
+            - path: "./examples/Example3"
+              component: "qsfgames:exe:example3"
+            - path: "./test"
+              component: "qsfgames:test:qsfgames-test"
+            - path: "./bench"
+              component: "qsfgames:bench:qsfgames-bench"
