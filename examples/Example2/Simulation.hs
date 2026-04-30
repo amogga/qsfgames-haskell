@@ -3,6 +3,7 @@ module Simulation where
 import Strategies
 import Objectives
 import Example.Equilibrium.MultiRound
+import Example.Equilibrium.AllEquilibria
 import Example.Type
 
 player1Moves :: [Char]
@@ -18,6 +19,9 @@ scenarioConfig = MultiRoundConfiguration {
     objectives = (goalObjective1, goalObjective2),
     stateUpdate = \playerNumber strategy state -> if strategy == 's' then straightInLaneState state playerNumber else changeLaneState state playerNumber
 }
+
+findAllEquilibriaE :: [Int] -> [Rational] -> IO [EquilibriumTranslationWithPayoff]
+findAllEquilibriaE = findAllEquilibria 5 scenarioConfig
 
 findEquilibriumMultiRoundE :: [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
 findEquilibriumMultiRoundE = findEquilibriumMultiRound scenarioConfig

@@ -1,3 +1,3 @@
-# Example 2: Two-Vehicle Overtaking Scenario (Approaching from behind)
+# Example 2: Two-Vehicle Head-On Collision Avoidance Scenario
 
-This example demonstrates a two-vehicle Overtaking scenario where a vehicle from the behind (player 1) wants to overtake the vehicle in front of it (player 2).
+This example demonstrates a two-vehicle head-on collision avoidance scenario where two vehicles are approaching each other in the same lane, traveling in opposite directions. One vehicle should avoid collision by performing a lane change to the left, then returning to the right lane, allowing both vehicles to reach their destinations safely without a head-on collision.

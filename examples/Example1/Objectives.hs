@@ -13,10 +13,11 @@ safeDistance :: Double
 safeDistance = 3
 
 goalObjective1 :: [Double] -> Double
-goalObjective1 [x1,y1,x2,y2] = -(goal + 10 * (safeBarrier proximity))
+goalObjective1 [x1,y1,x2,y2] = -(goal + 10 * (if inSameLane then safeBarrier proximity else 0))
     where
         goal = distance [x1,y1] player1Goal
         proximity = distance [x1,y1] [x2,y2]
+        inSameLane = x1 == x2
 
 goalObjective2 :: [Double] -> Double
 goalObjective2 [_,_,x2,y2] = let goal = distance [x2,y2] player2Goal in -goal

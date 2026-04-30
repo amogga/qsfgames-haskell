@@ -16,8 +16,6 @@ cradle:
               component: "qsfgames:exe:example1"
             - path: "./examples/Example2"
               component: "qsfgames:exe:example2"
-            - path: "./examples/Example3"
-              component: "qsfgames:exe:example3"
             - path: "./test"
               component: "qsfgames:test:qsfgames-test"
             - path: "./bench"

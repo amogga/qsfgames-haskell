@@ -166,45 +166,6 @@ executable example2
     , vector
   default-language: Haskell2010
 
-executable example3
-  main-is: Main.hs
-  other-modules:
-      Objectives
-      Simulation
-      Strategies
-      Paths_qsfgames
-  autogen-modules:
-      Paths_qsfgames
-  hs-source-dirs:
-      examples/Example3
-  default-extensions:
-      DeriveAnyClass
-      StandaloneDeriving
-      DeriveGeneric
-      RankNTypes
-      FlexibleContexts
-      FlexibleInstances
-      UndecidableInstances
-      MultiParamTypeClasses
-      RecordWildCards
-      LambdaCase
-      MonoLocalBinds
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
-  build-depends:
-      base >=4.7 && <5
-    , containers
-    , diagrams-cairo
-    , diagrams-lib
-    , dirichlet
-    , matrix
-    , mtl
-    , qsfgames
-    , random
-    , split
-    , unordered-containers
-    , vector
-  default-language: Haskell2010
-
 executable qsfgames-exe
   main-is: Main.hs
   other-modules:

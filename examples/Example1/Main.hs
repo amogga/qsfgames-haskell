@@ -5,17 +5,15 @@ import Data.Ratio
 
 main :: IO ()
 main = do
-    let initialState = [2,5,6,5] :: [Rational]
-    let rounds = [3,3,3]
-    
-    putStrLn "=== Nash Equilibrium ==="
-    print $ findEquilibriumMultiRoundE rounds initialState
+    let initialState = [6,0,6,6] :: [Rational]
+    let rounds = [3,3,3,3]
 
---     putStrLn "=== Normal Form Perfect Equilibrium ==="
---     eqpnf <- findNormalFormPerfectEquilibriumMultiRoundE rounds initialState
---     print eqpnf
--- 
---     putStrLn "=== Quasi-Perfect Equilibrium ==="
---     let eps = 1 % 1000
---     let res = findQuasiPerfectEquilibriumMultiRoundE eps rounds initialState
---     print res
+    let eqp = findEquilibriumMultiRoundE rounds initialState
+    print eqp
+
+    eqpnf <- findNormalFormPerfectEquilibriumMultiRoundE rounds initialState
+    print eqpnf
+
+    let eps = 1 % 1000
+    let eqMultiRoundQP = findQuasiPerfectEquilibriumMultiRoundE eps rounds initialState
+    print eqMultiRoundQP

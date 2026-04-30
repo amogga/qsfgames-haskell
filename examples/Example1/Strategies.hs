@@ -6,10 +6,10 @@ import Example.Utilities
 import Objectives
 
 waypointd1 :: Rational
-waypointd1 = 10
+waypointd1 = 3 --10
 
 waypointd2 :: Rational
-waypointd2 = 5
+waypointd2 = 1 --5
 
 -- move: go straight in lane
 straightInLane :: GNode -> GNode
