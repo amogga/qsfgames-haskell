@@ -80,6 +80,7 @@ library
     , diagrams-cairo
     , diagrams-lib
     , dirichlet
+    , intervals
     , matrix
     , mtl
     , random
@@ -118,6 +119,7 @@ executable example1
     , diagrams-cairo
     , diagrams-lib
     , dirichlet
+    , intervals
     , matrix
     , mtl
     , qsfgames
@@ -157,6 +159,7 @@ executable example2
     , diagrams-cairo
     , diagrams-lib
     , dirichlet
+    , intervals
     , matrix
     , mtl
     , qsfgames
@@ -193,6 +196,7 @@ executable qsfgames-exe
     , diagrams-cairo
     , diagrams-lib
     , dirichlet
+    , intervals
     , matrix
     , mtl
     , qsfgames
@@ -235,6 +239,7 @@ test-suite qsfgames-test
     , dirichlet
     , hspec
     , ieee754
+    , intervals
     , matrix
     , mtl
     , qsfgames
@@ -277,6 +282,7 @@ benchmark qsfgames-bench
     , diagrams-cairo
     , diagrams-lib
     , dirichlet
+    , intervals
     , matrix
     , mtl
     , parallel

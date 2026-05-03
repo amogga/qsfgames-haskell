@@ -29,6 +29,7 @@ dependencies:
   - vector
   - matrix
   - split
+  - intervals
   - diagrams-lib
   - diagrams-cairo
 
