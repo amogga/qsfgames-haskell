@@ -4,4 +4,4 @@ dist
 *.sublime*
 .DS_Store
 *.tix
-.nova
+.zed
