@@ -37,9 +37,9 @@ findPose config dubinsinfo l = Configuration (findPosition config dubinsinfo l) 
 
 findPosition :: Configuration -> DubinsInfo -> SegmentLength -> Matrix Double
 findPosition config dubinsinfo l
-  | l - epsilon <= curveSeg1 = findPositionForCurveSegment r curveDir1 pos1 centerpos1 l
-  | l - epsilon <= curveSeg1 + straightSeg = findPositionForStraightSegment zpos1 zpos2 (l - curveSeg1)
-  | l - epsilon <= curveSeg1 + straightSeg + curveSeg2 = findPositionForCurveSegment r curveDir2 zpos2 centerpos2 (l - curveSeg1 - straightSeg)
+  | (l +/- epsilon) ==? (0 ... curveSeg1) = findPositionForCurveSegment r curveDir1 pos1 centerpos1 l
+  | (l +/- epsilon) ==? (curveSeg1 ... curveSeg1PlStr) = findPositionForStraightSegment zpos1 zpos2 (l - curveSeg1)
+  | (l +/- epsilon) ==? (curveSeg1PlStr ... totalLength) = findPositionForCurveSegment r curveDir2 zpos2 centerpos2 (l - curveSeg1PlStr)
   | otherwise = error "Segment length exceeds total path length"
   where
     dubinspath = path dubinsinfo
@@ -47,6 +47,8 @@ findPosition config dubinsinfo l
     curveSeg1 = curveSegment1 dubinspath
     straightSeg = straightSegment dubinspath
     curveSeg2 = curveSegment2 dubinspath
+    curveSeg1PlStr = curveSeg1 + straightSeg
+    totalLength = curveSeg1PlStr + curveSeg2
     curveDir1 = lambda1 $ parameters dubinsinfo
     curveDir2 = lambda2 $ parameters dubinsinfo
     pos1 = position config
