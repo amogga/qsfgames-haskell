@@ -25,6 +25,11 @@ source-repository head
 
 library
   exposed-modules:
+      Algorithm.Dubins.Draw
+      Algorithm.Dubins.Dubins
+      Algorithm.Dubins.Helpers
+      Algorithm.Dubins.Pose
+      Algorithm.Dubins.Type
       Algorithm.Lemke.Dirichlet
       Algorithm.Lemke.Helpers
       Algorithm.Lemke.LCP
@@ -210,6 +215,7 @@ test-suite qsfgames-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Algorithm.DubinsSpec
       Algorithm.LemkeSpec
       Algorithm.SequenceFormSpec
       Paths_qsfgames
