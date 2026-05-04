@@ -14,17 +14,17 @@ data Configuration = Configuration
   }
   deriving (Show)
 
-data DubinsInfo = DubinsInfo
-  { path :: DubinsPath,
+data DubinsPath = DubinsPath
+  { path :: DubinsInfo,
     parameters :: DubinsParameters
   }
   deriving (Show)
 
-data DubinsPath = DubinsPath
+data DubinsInfo = DubinsInfo
   { pathType :: DubinsPathType,
     startCenter :: Matrix Double,
     endCenter :: Matrix Double,
-    minimumRadius :: Double,
+    minimumRadius :: MinimumRadius,
     curveSegment1 :: Double,
     straightSegment :: Double,
     curveSegment2 :: Double
@@ -34,8 +34,8 @@ data DubinsPath = DubinsPath
 data DubinsParameters = DubinsParameters
   { z1 :: Matrix Double,
     z2 :: Matrix Double,
-    lambda1 :: CurveDirection,
-    lambda2 :: CurveDirection
+    direction1 :: CurveDirection,
+    direction2 :: CurveDirection
   }
   deriving (Show)
 

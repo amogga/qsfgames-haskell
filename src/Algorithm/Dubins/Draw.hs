@@ -14,32 +14,32 @@ createDubinsDiagramSequence r configs =
   renderCairo
     ("plots/dubins/dplot_sequence.pdf")
     (dims (V2 400 400))
-    (bg white $ drawGraphs configs (computeDubinsPathsInfos r configs) # centerXY # padX 1.3 # padY 1.1)
+    (bg white $ drawGraphs configs (computeDubinsPaths r configs) # centerXY # padX 1.3 # padY 1.1)
 
 createDubinsDiagram :: MinimumRadius -> Configuration -> Configuration -> IO ()
-createDubinsDiagram r config1 config2 = createDiagram config1 config2 dubinsInfo
+createDubinsDiagram r config1 config2 = createDiagram config1 config2 dubinsPath
   where
-    dubinsInfo = computeDubinsPathInfo r config1 config2
+    dubinsPath = computeDubinsPath r config1 config2
 
-createDiagram :: Configuration -> Configuration -> DubinsInfo -> IO ()
-createDiagram config1 config2 dubinsInfo = renderCairo ("plots/dubins/dplot.png") (dims (V2 400 400)) (bg white $ drawGraph config1 config2 dubinsInfo # centerXY # padX 1.3 # padY 1.1)
+createDiagram :: Configuration -> Configuration -> DubinsPath -> IO ()
+createDiagram config1 config2 dubinsPath = renderCairo ("plots/dubins/dplot.png") (dims (V2 400 400)) (bg white $ drawGraph config1 config2 dubinsPath # centerXY # padX 1.3 # padY 1.1)
 
-drawGraphs :: [Configuration] -> [DubinsInfo] -> Diagram B
-drawGraphs configs dubinsInfos =
-  let centersDiagram = mconcat $ map drawCenters dubinsInfos
+drawGraphs :: [Configuration] -> [DubinsPath] -> Diagram B
+drawGraphs configs dubinsPath =
+  let centersDiagram = mconcat $ map drawCenters dubinsPath
       configsDiagrams = mconcat $ map drawOneConfiguration configs
-      pathDiagram = mconcat $ map (\([c1, c2], dinfo) -> drawPath c1 c2 dinfo) $ zip (divvy 2 1 configs) dubinsInfos
+      pathDiagram = mconcat $ map (\([c1, c2], dinfo) -> drawPath c1 c2 dinfo) $ zip (divvy 2 1 configs) dubinsPath
    in configsDiagrams <> pathDiagram <> centersDiagram
 
-drawGraph :: Configuration -> Configuration -> DubinsInfo -> Diagram B
-drawGraph startConfig endConfig dubinsInfo =
-  let centers = drawCenters dubinsInfo
+drawGraph :: Configuration -> Configuration -> DubinsPath -> Diagram B
+drawGraph startConfig endConfig dubinsPath =
+  let centers = drawCenters dubinsPath
       configs = drawConfigurations startConfig endConfig
-      pathDiagram = drawPath startConfig endConfig dubinsInfo
+      pathDiagram = drawPath startConfig endConfig dubinsPath
    in configs <> pathDiagram <> centers
 
-drawPath :: Configuration -> Configuration -> DubinsInfo -> Diagram B
-drawPath startConfig endConfig (DubinsInfo path params) =
+drawPath :: Configuration -> Configuration -> DubinsPath -> Diagram B
+drawPath startConfig endConfig (DubinsPath path params) =
   let [x1, y1] = toList $ position startConfig
       [x2, y2] = toList $ position endConfig
       [cs1, cs2] = toList $ startCenter path
@@ -68,8 +68,8 @@ drawConfigurations config1 config2 =
    in circle 0.1 # fc red # lw none # translate (r2 (x1, y1))
         <> circle 0.1 # fc blue # lw none # translate (r2 (x2, y2))
 
-drawCenters :: DubinsInfo -> Diagram B
-drawCenters (DubinsInfo path _) =
+drawCenters :: DubinsPath -> Diagram B
+drawCenters (DubinsPath path _) =
   let [cs1, cs2] = toList $ startCenter path
       [ce1, ce2] = toList $ endCenter path
       r = minimumRadius path

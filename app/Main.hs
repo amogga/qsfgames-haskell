@@ -13,9 +13,9 @@ main = do
   let config3 = Configuration (fromList 2 1 [10, 10]) (pi / 3.3)
 
   let configs = [config1, config2, config3]
-  let dubinsinfo = computeDubinsPathsInfos r configs
+  let dubinsPaths = computeDubinsPaths r configs
 
-  print $ findPoseRatios configs dubinsinfo [0, 0.5, 0.8, 1]
+  print $ findPoseRatios configs dubinsPaths [0, 0.5, 0.8, 1]
   -- let pose = findPose config1 (head res) 0
   -- print pose
 
