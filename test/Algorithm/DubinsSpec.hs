@@ -1,5 +1,13 @@
 module Algorithm.DubinsSpec where
 
+import Test.Hspec
+
+spec :: Spec
+spec = do
+  describe "Algorithm.Dubins" $ do
+    it "is pending" $ pendingWith "Not yet implemented"
+
+
 -- let r = 2
 -- RSR Config
 -- let startConfig = Configuration (fromList 2 1 [5, 2]) (pi / 1.5)
