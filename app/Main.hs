@@ -1,42 +1,26 @@
 module Main (main) where
 
-import Data.Ratio
+import Algorithm.Dubins.Dubins
+import Algorithm.Dubins.Pose
+import Algorithm.Dubins.Type
 import Data.Matrix
-import Algorithm.Lemke.LCP
-import Algorithm.Lemke.Type
-import Algorithm.Lemke.Variables
-import qualified Data.Vector as V
-import Algorithm.Lemke.Helpers
-import Algorithm.SequenceForm
 
 main :: IO ()
 main = do
-    let a = fromLists [[0, 0, 0],
-                       [0, 0, 0],
-                       [1-5, 0, 0],
-                       [0, negate 5, 2-5],
-                       [0, 2-5, negate 5]] :: Matrix Rational
+  let r = 2
+  let config1 = Configuration (fromList 2 1 [1.1, 2]) (pi / 2)
+  let config2 = Configuration (fromList 2 1 [5, 6]) (pi / 3.3)
+  let config3 = Configuration (fromList 2 1 [10, 10]) (pi / 3.3)
 
-    let b = fromLists [[0, 0, 0],
-                       [0, 0, 0],
-                       [1-5, 0, 0],
-                       [0, negate 5, 4-5],
-                       [0, 4-5, negate 5]] :: Matrix Rational
+  let configs = [config1, config2, config3]
+  let dubinsinfo = computeDubinsPathsInfos r configs
 
-    let e = fromLists [[1, 0, 0, 0, 0],
-                       [-1, 1, 1, 0, 0],
-                       [0, -1, 0, 1, 1]] :: Matrix Rational
+  print $ findPoseRatios configs dubinsinfo [0, 0.5, 0.8, 1]
+  -- let pose = findPose config1 (head res) 0
+  -- print pose
 
-    let f = fromLists [[1, 0, 0],
-                       [-1, 1, 1]] :: Matrix Rational
-
-  
-    let seqf = SequenceForm2P a b e f
-
-    let lcp = buildLCPProblem seqf
-
-
-    let result = lemke lcp
-
-    print result
-    
+  -- let poser = map (findPoseRatio config1 (head res)) [0, 0.5, 1]
+  -- print poser
+  --
+  -- createDubinsDiagramSequence r [config1, config2, config3, config4]
+  print "createDiagram"
