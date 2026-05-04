@@ -5,7 +5,6 @@ module Algorithm.Dubins.Pose where
 import Algorithm.Dubins.Helpers
 import Algorithm.Dubins.Type
 import Data.List (findIndex)
-import Data.List.Split
 import Data.Matrix
 import Data.Maybe (fromMaybe)
 import Numeric.Interval

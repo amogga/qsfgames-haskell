@@ -43,6 +43,7 @@ library
       Example.Equilibrium.MultiRound
       Example.Equilibrium.Normalization
       Example.Equilibrium.SingleRound
+      Example.Pose
       Example.SequenceForm
       Example.Translation
       Example.Type
