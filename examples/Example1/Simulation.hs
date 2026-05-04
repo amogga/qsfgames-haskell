@@ -1,23 +1,26 @@
 module Simulation where
 
-import Strategies
-import Objectives
+import Algorithm.Dubins.Type
 import Example.Equilibrium.MultiRound
+import Example.Pose
 import Example.Type
+import Objectives
+import Strategies
 
 player1Moves :: [Char]
-player1Moves = ['s','l']
+player1Moves = ['s', 'l']
 
 player2Moves :: [Char]
-player2Moves = ['s','l']
+player2Moves = ['s', 'l']
 
-scenarioConfig :: MultiRoundConfiguration    
-scenarioConfig = MultiRoundConfiguration {
-    movesIndication = (player1Moves, player2Moves),
-    moves = [straightInLane, changeLane],
-    objectives = (goalObjective1, goalObjective2),
-    stateUpdate = \playerNumber strategy state -> if strategy == 's' then straightInLaneState state playerNumber else changeLaneState state playerNumber
-}
+scenarioConfig :: MultiRoundConfiguration
+scenarioConfig =
+  MultiRoundConfiguration
+    { movesIndication = (player1Moves, player2Moves),
+      moves = [straightInLane, changeLane],
+      objectives = (goalObjective1, goalObjective2),
+      stateUpdate = \playerNumber strategy state -> if strategy == 's' then straightInLaneState state playerNumber else changeLaneState state playerNumber
+    }
 
 findEquilibriumMultiRoundE :: [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
 findEquilibriumMultiRoundE = findEquilibriumMultiRound scenarioConfig
@@ -27,3 +30,6 @@ findNormalFormPerfectEquilibriumMultiRoundE = findNormalFormPerfectEquilibriumMu
 
 findQuasiPerfectEquilibriumMultiRoundE :: Rational -> [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
 findQuasiPerfectEquilibriumMultiRoundE = findQuasiPerfectEquilibriumMultiRound scenarioConfig
+
+findPoseE :: (MinimumRadius, MinimumRadius) -> [Rational] -> EquilibriumTranslationWithPayoff -> [SegmentLength] -> ([Configuration], [Configuration])
+findPoseE = findDubinsPoseRatios scenarioConfig
