@@ -15,7 +15,7 @@ main = do
   let configs = [config1, config2, config3]
   let dubinsPaths = computeDubinsPaths r configs
 
-  print $ findPoseRatios configs dubinsPaths [0, 0.5, 0.8, 1]
+  print $ findPoseRatios dubinsPaths [0, 0.5, 0.8, 1]
   -- let pose = findPose config1 (head res) 0
   -- print pose
 

@@ -9,8 +9,8 @@ import Data.Matrix
 import Data.Maybe (fromMaybe)
 import Numeric.Interval
 
-findPoseRatios :: [Configuration] -> [DubinsPath] -> [SegmentLength] -> [Configuration]
-findPoseRatios configs dubinsinfos ls = map (\(rr, ii) -> findPoseRatio (configs !! ii) (dubinsinfos !! ii) rr) ratiosIndices
+findPoseRatios :: [DubinsPath] -> [SegmentLength] -> [Configuration]
+findPoseRatios dubinsinfos ls = map (\(rr, ii) -> findPoseRatio (dubinsinfos !! ii) rr) ratiosIndices
   where
     pathsLengths = map (\di -> let ll = path di in curveSegment1 ll + straightSegment ll + curveSegment2 ll) dubinsinfos
     totalLength = sum pathsLengths
@@ -23,19 +23,19 @@ findPoseRatios configs dubinsinfos ls = map (\(rr, ii) -> findPoseRatio (configs
     -- find all the local ratios and their corresponding path indices
     ratiosIndices = map (\l -> (localRatio l, pathIndex l)) ls
 
-findPoseRatio :: Configuration -> DubinsPath -> Double -> Configuration
-findPoseRatio config dubinspath ratio
+findPoseRatio :: DubinsPath -> Double -> Configuration
+findPoseRatio dubinspath ratio
   | (ratio +/- epsilon) /=! (0 ... 1) = error "Ratio must be between 0 and 1" -- this is to avoid issues with floating point precision: notMember ratio (inflate epsilon $ 0 ... 1)
-  | otherwise = findPose config dubinspath (ratio * totalLength)
+  | otherwise = findPose dubinspath (ratio * totalLength)
   where
     dubinsinfo = path dubinspath
     totalLength = curveSegment1 dubinsinfo + straightSegment dubinsinfo + curveSegment2 dubinsinfo
 
-findPose :: Configuration -> DubinsPath -> SegmentLength -> Configuration
-findPose config dubinspath l = Configuration (findPosition config dubinspath l) (findOrientation config dubinspath l)
+findPose :: DubinsPath -> SegmentLength -> Configuration
+findPose dubinspath l = Configuration (findPosition dubinspath l) (findOrientation dubinspath l)
 
-findPosition :: Configuration -> DubinsPath -> SegmentLength -> Matrix Double
-findPosition config dubinspath l
+findPosition :: DubinsPath -> SegmentLength -> Matrix Double
+findPosition dubinspath l
   | (l +/- epsilon) ==? (0 ... curveSeg1) = findPositionForCurveSegment r curveDir1 pos1 centerpos1 l
   | (l +/- epsilon) ==? (curveSeg1 ... curveSeg1PlStr) = findPositionForStraightSegment zpos1 zpos2 (l - curveSeg1)
   | (l +/- epsilon) ==? (curveSeg1PlStr ... totalLength) = findPositionForCurveSegment r curveDir2 zpos2 centerpos2 (l - curveSeg1PlStr)
@@ -50,17 +50,17 @@ findPosition config dubinspath l
     totalLength = curveSeg1PlStr + curveSeg2
     curveDir1 = direction1 $ parameters dubinspath
     curveDir2 = direction2 $ parameters dubinspath
-    pos1 = position config
+    pos1 = position $ startConfig $ configurations dubinspath
     centerpos1 = startCenter dubinsinfo
     zpos1 = z1 $ parameters dubinspath
     zpos2 = z2 $ parameters dubinspath
     centerpos2 = endCenter dubinsinfo
 
-findOrientation :: Configuration -> DubinsPath -> SegmentLength -> Double
-findOrientation config dubinspath l
-  | l - epsilon <= curveSeg1 = findOrientationForCurveSegment1 config dubinspath l
+findOrientation :: DubinsPath -> SegmentLength -> Double
+findOrientation dubinspath l
+  | l - epsilon <= curveSeg1 = findOrientationForCurveSegment1 dubinspath l
   | l - epsilon <= curveSeg1 + straightSeg = findOrientationForStraightSegment dubinspath
-  | l - epsilon <= curveSeg1 + straightSeg + curveSeg2 = findOrientationForCurveSegment2 config dubinspath l
+  | l - epsilon <= curveSeg1 + straightSeg + curveSeg2 = findOrientationForCurveSegment2 dubinspath l
   | otherwise = error "Segment length exceeds total path length"
   where
     dubinsinfo = path dubinspath
@@ -85,17 +85,18 @@ findPositionForCurveSegment r curveDir pos centerpos l = centerpos + scaleMatrix
 
 -- Orientation
 findOrientationForStraightSegment :: DubinsPath -> Double
-findOrientationForStraightSegment (DubinsPath _ params) = atan2 (z21 ! (2, 1)) (z21 ! (1, 1))
+findOrientationForStraightSegment (DubinsPath _ params _) = atan2 (z21 ! (2, 1)) (z21 ! (1, 1))
   where
     z21 = (z2 params) - (z1 params)
 
-findOrientationForCurveSegment1 :: Configuration -> DubinsPath -> SegmentLength -> Double
-findOrientationForCurveSegment1 config dubinspath l = (orientation config) + if (direction1 $ parameters dubinspath) == RightDirection then -l / r else l / r
+findOrientationForCurveSegment1 :: DubinsPath -> SegmentLength -> Double
+findOrientationForCurveSegment1 dubinspath l = (orientation stconfig) + if (direction1 $ parameters dubinspath) == RightDirection then -l / r else l / r
   where
     r = minimumRadius $ path dubinspath
+    stconfig = startConfig $ configurations dubinspath
 
-findOrientationForCurveSegment2 :: Configuration -> DubinsPath -> SegmentLength -> Double
-findOrientationForCurveSegment2 config dubinspath l = (orientation config) + or1 + or2
+findOrientationForCurveSegment2 :: DubinsPath -> SegmentLength -> Double
+findOrientationForCurveSegment2 dubinspath l = (orientation stconfig) + or1 + or2
   where
     or1 = if dir1 == RightDirection then -l1 / r else l1 / r
     dir1 = direction1 $ parameters dubinspath
@@ -104,3 +105,4 @@ findOrientationForCurveSegment2 config dubinspath l = (orientation config) + or1
     dir2 = direction2 $ parameters dubinspath
     l12 = l1 + straightSegment (path dubinspath)
     r = minimumRadius $ path dubinspath
+    stconfig = startConfig $ configurations dubinspath

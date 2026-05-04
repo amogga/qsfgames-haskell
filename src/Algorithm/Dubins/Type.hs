@@ -1,4 +1,4 @@
-module Algorithm.Dubins.Type (MinimumRadius, DubinsInfo (..), DubinsPathType (..), DubinsParameters (..), CurveDirection (..), DubinsPath (..), DubinsCenters (..), Configuration (..), SegmentLength) where
+module Algorithm.Dubins.Type (MinimumRadius, DubinsInfo (..), DubinsPathType (..), DubinsParameters (..), CurveDirection (..), DubinsPath (..), DubinsCenters (..), Configuration (..), SegmentLength, DubinsConfigurations (..)) where
 
 import Data.Matrix
 
@@ -16,7 +16,14 @@ data Configuration = Configuration
 
 data DubinsPath = DubinsPath
   { path :: DubinsInfo,
-    parameters :: DubinsParameters
+    parameters :: DubinsParameters,
+    configurations :: DubinsConfigurations
+  }
+  deriving (Show)
+
+data DubinsConfigurations = DubinsConfigurations
+  { startConfig :: Configuration,
+    endConfig :: Configuration
   }
   deriving (Show)
 

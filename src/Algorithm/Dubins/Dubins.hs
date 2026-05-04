@@ -16,11 +16,12 @@ computeDubinsPaths r configs = map (\[c1, c2] -> computeDubinsPath r c1 c2) (div
 computeDubinsPath :: MinimumRadius -> Configuration -> Configuration -> DubinsPath
 computeDubinsPath r startConfig endConfig =
   if isConfigurationValid r startConfig endConfig
-    then DubinsPath path params
+    then DubinsPath path params configs
     else error "Invalid configuration"
   where
     path = computeDubinsInfo r startConfig endConfig
     params = computeDubinsParameters path
+    configs = DubinsConfigurations startConfig endConfig
 
 computeDubinsInfos :: MinimumRadius -> [Configuration] -> [DubinsInfo]
 computeDubinsInfos r configs = map (\[c1, c2] -> computeDubinsInfo r c1 c2) (divvy 2 1 configs)

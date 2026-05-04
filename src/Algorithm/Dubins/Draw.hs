@@ -39,7 +39,7 @@ drawGraph startConfig endConfig dubinsPath =
    in configs <> pathDiagram <> centers
 
 drawPath :: Configuration -> Configuration -> DubinsPath -> Diagram B
-drawPath startConfig endConfig (DubinsPath path params) =
+drawPath startConfig endConfig (DubinsPath path params configs) =
   let [x1, y1] = toList $ position startConfig
       [x2, y2] = toList $ position endConfig
       [cs1, cs2] = toList $ startCenter path
@@ -69,7 +69,7 @@ drawConfigurations config1 config2 =
         <> circle 0.1 # fc blue # lw none # translate (r2 (x2, y2))
 
 drawCenters :: DubinsPath -> Diagram B
-drawCenters (DubinsPath path _) =
+drawCenters (DubinsPath path _ _) =
   let [cs1, cs2] = toList $ startCenter path
       [ce1, ce2] = toList $ endCenter path
       r = minimumRadius path
