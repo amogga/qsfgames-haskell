@@ -25,6 +25,9 @@ source-repository head
 
 library
   exposed-modules:
+      Algorithm.Control.ODESolver
+      Algorithm.Control.Stanley
+      Algorithm.Control.Type
       Algorithm.Dubins.Draw
       Algorithm.Dubins.Dubins
       Algorithm.Dubins.Helpers
