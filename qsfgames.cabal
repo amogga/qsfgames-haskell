@@ -25,6 +25,7 @@ source-repository head
 
 library
   exposed-modules:
+      Algorithm.Control.Nearest
       Algorithm.Control.ODESolver
       Algorithm.Control.Stanley
       Algorithm.Control.Type
@@ -90,6 +91,8 @@ library
     , diagrams-lib
     , dirichlet
     , intervals
+    , lens
+    , linear
     , matrix
     , mtl
     , random
@@ -129,6 +132,8 @@ executable example1
     , diagrams-lib
     , dirichlet
     , intervals
+    , lens
+    , linear
     , matrix
     , mtl
     , qsfgames
@@ -169,6 +174,8 @@ executable example2
     , diagrams-lib
     , dirichlet
     , intervals
+    , lens
+    , linear
     , matrix
     , mtl
     , qsfgames
@@ -206,6 +213,8 @@ executable qsfgames-exe
     , diagrams-lib
     , dirichlet
     , intervals
+    , lens
+    , linear
     , matrix
     , mtl
     , qsfgames
@@ -250,6 +259,8 @@ test-suite qsfgames-test
     , hspec
     , ieee754
     , intervals
+    , lens
+    , linear
     , matrix
     , mtl
     , qsfgames
@@ -293,6 +304,8 @@ benchmark qsfgames-bench
     , diagrams-lib
     , dirichlet
     , intervals
+    , lens
+    , linear
     , matrix
     , mtl
     , parallel
