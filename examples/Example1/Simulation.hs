@@ -1,6 +1,7 @@
 module Simulation where
 
 import Algorithm.Dubins.Type
+import Example.Dubins
 import Example.Equilibrium.MultiRound
 import Example.Pose
 import Example.Type
@@ -31,5 +32,5 @@ findNormalFormPerfectEquilibriumMultiRoundE = findNormalFormPerfectEquilibriumMu
 findQuasiPerfectEquilibriumMultiRoundE :: Rational -> [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
 findQuasiPerfectEquilibriumMultiRoundE = findQuasiPerfectEquilibriumMultiRound scenarioConfig
 
-findPoseE :: (MinimumRadius, MinimumRadius) -> [Rational] -> EquilibriumTranslationWithPayoff -> [SegmentLength] -> ([Configuration], [Configuration])
-findPoseE = findDubinsPoseRatios scenarioConfig
+findDubinsPathsE :: (MinimumRadius, MinimumRadius) -> [Rational] -> EquilibriumTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
+findDubinsPathsE = findDubinsPaths scenarioConfig

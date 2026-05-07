@@ -7,6 +7,7 @@ import Algorithm.Dubins.Type
 import Data.Either (fromRight)
 import Data.Matrix
 import Data.Ratio
+import Example.Dubins (findDubinsPaths)
 import Example.Pose
 import Example.Utilities (incrementStateList)
 import Numeric.Interval
@@ -29,7 +30,6 @@ main = do
   print eqMultiRoundQP
 
   -- dubins
-  let (pose1, pose2) = findPoseE (1, 0.5) initialState eqp [0, 0.01 .. 1]
+  let dubinsPaths = findDubinsPathsE (1, 0.5) initialState eqp
 
-  let tte = stanleyController (pose1 !! 10) pose1 3 0 (10, 10, 0, 0) 0.01 0.523599 1.372
-  print tte
+  print "End"
