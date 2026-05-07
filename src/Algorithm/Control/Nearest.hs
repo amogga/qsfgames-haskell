@@ -19,18 +19,12 @@ findNearestInfoOnDubinsPaths paths config =
 
 findNearestInfoOnDubinsPath :: DubinsPath -> Configuration -> NearestInfo
 findNearestInfoOnDubinsPath (DubinsPath (DubinsInfo _ stcntr endstr r cs1 _ cs2) (DubinsParameters z1 z2 dir1 dir2) (DubinsConfigurations startPnt _)) (Configuration pos _) =
-  let stcntrp = matrixToV2 stcntr
-      endcntrp = matrixToV2 endstr
-      startpntV2 = matrixToV2 (position startPnt)
-      z11 = matrixToV2 z1
-      z22 = matrixToV2 z2
-      posV2 = matrixToV2 pos
-      sp1 = nearestOnArc posV2 stcntrp r startpntV2 cs1 dir1
-      sp2 = nearestOnSegment posV2 z11 z22
-      sp3 = nearestOnArc posV2 endcntrp r z22 cs2 dir2
+  let sp1 = nearestOnArc pos stcntr r (position startPnt) cs1 dir1
+      sp2 = nearestOnSegment pos z1 z2
+      sp3 = nearestOnArc pos endstr r z2 cs2 dir2
       candidates = [sp1, sp2, sp3]
-      (nearestPnt, nearestOri) = minimumBy (\(p1, _) (p2, _) -> compare (distance posV2 p1) (distance posV2 p2)) candidates
-   in NearestInfo nearestPnt nearestOri (distance posV2 nearestPnt)
+      (nearestPnt, nearestOri) = minimumBy (\(p1, _) (p2, _) -> compare (distance pos p1) (distance pos p2)) candidates
+   in NearestInfo nearestPnt nearestOri (distance pos nearestPnt)
 
 matrixToV2 :: Matrix Double -> V2 Double
 matrixToV2 m = V2 (m ! (1, 1)) (m ! (2, 1))

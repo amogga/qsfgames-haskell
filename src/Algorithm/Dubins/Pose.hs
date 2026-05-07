@@ -7,6 +7,7 @@ import Algorithm.Dubins.Type
 import Data.List (findIndex)
 import Data.Matrix
 import Data.Maybe (fromMaybe)
+import Linear
 import Numeric.Interval
 
 findPoseRatios :: [DubinsPath] -> [SegmentLength] -> [Configuration]
@@ -34,7 +35,7 @@ findPoseRatio dubinspath ratio
 findPose :: DubinsPath -> SegmentLength -> Configuration
 findPose dubinspath l = Configuration (findPosition dubinspath l) (findOrientation dubinspath l)
 
-findPosition :: DubinsPath -> SegmentLength -> Matrix Double
+findPosition :: DubinsPath -> SegmentLength -> V2 Double
 findPosition dubinspath l
   | (l +/- epsilon) ==? (0 ... curveSeg1) = findPositionForCurveSegment r curveDir1 pos1 centerpos1 l
   | (l +/- epsilon) ==? (curveSeg1 ... curveSeg1PlStr) = findPositionForStraightSegment zpos1 zpos2 (l - curveSeg1)
@@ -69,25 +70,25 @@ findOrientation dubinspath l
     curveSeg2 = curveSegment2 dubinsinfo
 
 -- Position
-findPositionForStraightSegment :: Matrix Double -> Matrix Double -> SegmentLength -> Matrix Double
-findPositionForStraightSegment zpos1 zpos2 l = zpos1 + (rotationMatrix theta) * (fromList 2 1 [l, 0])
+findPositionForStraightSegment :: V2 Double -> V2 Double -> SegmentLength -> V2 Double
+findPositionForStraightSegment zpos1 zpos2 l = zpos1 + (rotMat theta) !* (V2 l 0)
   where
-    z21 = zpos2 - zpos1
-    theta = atan2 (z21 ! (2, 1)) (z21 ! (1, 1))
+    V2 z21x z21y = zpos2 - zpos1
+    theta = atan2 z21y z21x
 
-findPositionForCurveSegment :: MinimumRadius -> CurveDirection -> Matrix Double -> Matrix Double -> SegmentLength -> Matrix Double
-findPositionForCurveSegment r curveDir pos centerpos l = centerpos + scaleMatrix r (fromList 2 1 [cos beta, sin beta])
+findPositionForCurveSegment :: MinimumRadius -> CurveDirection -> V2 Double -> V2 Double -> SegmentLength -> V2 Double
+findPositionForCurveSegment r curveDir pos centerpos l = centerpos + r *^ (V2 (cos beta) (sin beta))
   where
     angleDisplacement = if curveDir == RightDirection then -l / r else l / r
     beta = phi + angleDisplacement
-    poss = pos - centerpos
-    phi = atan2 (poss ! (2, 1)) (poss ! (1, 1))
+    V2 possx possy = pos - centerpos
+    phi = atan2 possy possx
 
 -- Orientation
 findOrientationForStraightSegment :: DubinsPath -> Double
-findOrientationForStraightSegment (DubinsPath _ params _) = atan2 (z21 ! (2, 1)) (z21 ! (1, 1))
+findOrientationForStraightSegment (DubinsPath _ params _) = atan2 z21y z21x
   where
-    z21 = (z2 params) - (z1 params)
+    V2 z21x z21y = (z2 params) - (z1 params)
 
 findOrientationForCurveSegment1 :: DubinsPath -> SegmentLength -> Double
 findOrientationForCurveSegment1 dubinspath l = (orientation stconfig) + if (direction1 $ parameters dubinspath) == RightDirection then -l / r else l / r

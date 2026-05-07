@@ -1,6 +1,8 @@
-module Algorithm.Dubins.Type (MinimumRadius, DubinsInfo (..), DubinsPathType (..), DubinsParameters (..), CurveDirection (..), DubinsPath (..), DubinsCenters (..), Configuration (..), SegmentLength, DubinsConfigurations (..)) where
+module Algorithm.Dubins.Type (ReferenceDubinsPath (..), MinimumRadius, DubinsInfo (..), DubinsPathType (..), DubinsParameters (..), CurveDirection (..), DubinsPath (..), DubinsCenters (..), Configuration (..), SegmentLength, DubinsConfigurations (..)) where
 
-import Data.Matrix
+import Linear (V2)
+
+type ReferenceDubinsPath = [DubinsPath]
 
 type MinimumRadius = Double
 
@@ -9,7 +11,7 @@ type SegmentLength = Double
 data DubinsPathType = RSR | RSL | LSR | LSL deriving (Show)
 
 data Configuration = Configuration
-  { position :: Matrix Double,
+  { position :: V2 Double,
     orientation :: Double
   }
   deriving (Show)
@@ -29,8 +31,8 @@ data DubinsConfigurations = DubinsConfigurations
 
 data DubinsInfo = DubinsInfo
   { pathType :: DubinsPathType,
-    startCenter :: Matrix Double,
-    endCenter :: Matrix Double,
+    startCenter :: V2 Double,
+    endCenter :: V2 Double,
     minimumRadius :: MinimumRadius,
     curveSegment1 :: Double,
     straightSegment :: Double,
@@ -39,8 +41,8 @@ data DubinsInfo = DubinsInfo
   deriving (Show)
 
 data DubinsParameters = DubinsParameters
-  { z1 :: Matrix Double,
-    z2 :: Matrix Double,
+  { z1 :: V2 Double,
+    z2 :: V2 Double,
     direction1 :: CurveDirection,
     direction2 :: CurveDirection
   }
@@ -48,4 +50,4 @@ data DubinsParameters = DubinsParameters
 
 data CurveDirection = RightDirection | LeftDirection deriving (Show, Eq)
 
-data DubinsCenters = DubinsCenters {rightCenter :: Matrix Double, leftCenter :: Matrix Double}
+data DubinsCenters = DubinsCenters {rightCenter :: V2 Double, leftCenter :: V2 Double}

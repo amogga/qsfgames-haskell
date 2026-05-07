@@ -28,7 +28,6 @@ dependencies:
   - random
   - vector
   - linear
-  - lens
   - matrix
   - split
   - intervals

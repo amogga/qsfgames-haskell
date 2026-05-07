@@ -4,10 +4,11 @@ module Algorithm.Dubins.Draw (createDubinsDiagramSequence, createDubinsDiagram) 
 
 import Algorithm.Dubins.Dubins
 import Algorithm.Dubins.Type
+import Data.Foldable (toList)
 import Data.List.Split (divvy)
-import Data.Matrix
 import Diagrams.Backend.Cairo
 import Diagrams.Prelude hiding (position)
+import Linear
 
 createDubinsDiagramSequence :: MinimumRadius -> [Configuration] -> IO ()
 createDubinsDiagramSequence r configs =
