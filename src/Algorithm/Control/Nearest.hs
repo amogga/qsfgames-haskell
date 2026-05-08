@@ -3,12 +3,15 @@ module Algorithm.Control.Nearest where
 import Algorithm.Dubins.Type
 import Data.List (minimumBy)
 import Data.Matrix
+import qualified Data.Vector as V
 import Linear
 
 data NearestInfo = NearestInfo
   { nearestPoint :: V2 Double,
     nearestOrientation :: Double,
-    distanceToPath :: Double
+    distanceToPath :: Double,
+    dubinsSegment :: (DubinsPathSegmentType, DubinsPathType),
+    kappa :: Double
   }
   deriving (Show)
 
@@ -18,13 +21,26 @@ findNearestInfoOnDubinsPaths paths config =
    in minimumBy (\i1 i2 -> compare (distanceToPath i1) (distanceToPath i2)) nearestInfos
 
 findNearestInfoOnDubinsPath :: DubinsPath -> Configuration -> NearestInfo
-findNearestInfoOnDubinsPath (DubinsPath (DubinsInfo _ stcntr endstr r cs1 _ cs2) (DubinsParameters z1 z2 dir1 dir2) (DubinsConfigurations startPnt _)) (Configuration pos _) =
+findNearestInfoOnDubinsPath (DubinsPath (DubinsInfo pathType stcntr endstr r cs1 _ cs2) (DubinsParameters z1 z2 dir1 dir2) (DubinsConfigurations startPnt _)) (Configuration pos _) =
   let sp1 = nearestOnArc pos stcntr r (position startPnt) cs1 dir1
       sp2 = nearestOnSegment pos z1 z2
       sp3 = nearestOnArc pos endstr r z2 cs2 dir2
-      candidates = [sp1, sp2, sp3]
-      (nearestPnt, nearestOri) = minimumBy (\(p1, _) (p2, _) -> compare (distance pos p1) (distance pos p2)) candidates
-   in NearestInfo nearestPnt nearestOri (distance pos nearestPnt)
+      candidates = V.fromList [sp1, sp2, sp3]
+      -- (nearestPnt, nearestOri) = minimumBy (\(p1, _) (p2, _) -> compare (distance pos p1) (distance pos p2)) candidates
+      nearestIndex = V.minIndexBy (\(p1, _) (p2, _) -> compare (distance pos p1) (distance pos p2)) candidates
+      (nearestPnt, nearestOri) = candidates V.! nearestIndex
+      pathSeg = toEnum nearestIndex
+      direc = case pathSeg of
+        CurveSegment1 -> dir1
+        StraightSegment -> StraightDirection
+        CurveSegment2 -> dir2
+      kappa = getKappa pathSeg direc r
+   in NearestInfo nearestPnt nearestOri (distance pos nearestPnt) (pathSeg, pathType) kappa
+
+getKappa :: DubinsPathSegmentType -> CurveDirection -> MinimumRadius -> Double
+getKappa pthseg dir r
+  | pthseg == StraightSegment = 0
+  | otherwise = (getDirectionLambda dir) / r
 
 matrixToV2 :: Matrix Double -> V2 Double
 matrixToV2 m = V2 (m ! (1, 1)) (m ! (2, 1))
@@ -56,14 +72,14 @@ clamp :: (Ord a) => a -> a -> a -> a
 clamp lo hi = max lo . min hi
 
 clampArc :: Double -> Double -> Double -> Double -> Double
-clampArc angle sa ea lambda =
-  let normalized = normalizeToArc angle sa lambda
+clampArc angl sa ea lambda =
+  let normalized = normalizeToArc angl sa lambda
    in clamp (min sa ea) (max sa ea) normalized
 
 -- Shift angle into the arc's range starting from sa
 normalizeToArc :: Double -> Double -> Double -> Double
-normalizeToArc angle sa lambda =
-  let diff = angle - sa
+normalizeToArc angl sa lambda =
+  let diff = angl - sa
       -- bring diff into [0, 2pi) then scale by direction
       normalized = diff - 2 * pi * fromIntegral (floor (diff / (2 * pi)))
    in sa

@@ -1,48 +1,44 @@
 {-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
 
-module Algorithm.Dubins.Draw (createDubinsDiagramSequence, createDubinsDiagram) where
+module Algorithm.Dubins.Draw where
 
 import Algorithm.Dubins.Dubins
 import Algorithm.Dubins.Type
 import Data.Foldable (toList)
+import Data.List (nub)
 import Data.List.Split (divvy)
 import Diagrams.Backend.Cairo
 import Diagrams.Prelude hiding (position)
-import Linear
 
-createDubinsDiagramSequence :: MinimumRadius -> [Configuration] -> IO ()
-createDubinsDiagramSequence r configs =
+createDubinsDiagramSequence :: [DubinsPath] -> IO ()
+createDubinsDiagramSequence dubinspaths =
   renderCairo
     ("plots/dubins/dplot_sequence.pdf")
     (dims (V2 400 400))
-    (bg white $ drawGraphs configs (computeDubinsPaths r configs) # centerXY # padX 1.3 # padY 1.1)
+    (bg white $ drawDubinsGraphs dubinspaths # centerXY # padX 1.3 # padY 1.1)
 
-createDubinsDiagram :: MinimumRadius -> Configuration -> Configuration -> IO ()
-createDubinsDiagram r config1 config2 = createDiagram config1 config2 dubinsPath
-  where
-    dubinsPath = computeDubinsPath r config1 config2
+createDiagram :: DubinsPath -> IO ()
+createDiagram dubinsPath = renderCairo ("plots/dubins/dplot.png") (dims (V2 400 400)) (bg white $ drawDubinsGraph dubinsPath # centerXY # padX 1.3 # padY 1.1)
 
-createDiagram :: Configuration -> Configuration -> DubinsPath -> IO ()
-createDiagram config1 config2 dubinsPath = renderCairo ("plots/dubins/dplot.png") (dims (V2 400 400)) (bg white $ drawGraph config1 config2 dubinsPath # centerXY # padX 1.3 # padY 1.1)
-
-drawGraphs :: [Configuration] -> [DubinsPath] -> Diagram B
-drawGraphs configs dubinsPath =
-  let centersDiagram = mconcat $ map drawCenters dubinsPath
+drawDubinsGraphs :: [DubinsPath] -> Diagram B
+drawDubinsGraphs dubinspaths =
+  let configs = nub $ concatMap (\(DubinsPath _ _ confgs) -> [startConfig confgs, endConfig confgs]) dubinspaths
+      centersDiagram = mconcat $ map drawCenters dubinspaths
       configsDiagrams = mconcat $ map drawOneConfiguration configs
-      pathDiagram = mconcat $ map (\([c1, c2], dinfo) -> drawPath c1 c2 dinfo) $ zip (divvy 2 1 configs) dubinsPath
+      pathDiagram = mconcat $ map (\(_, dinfo) -> drawPath dinfo) $ zip (divvy 2 1 configs) dubinspaths
    in configsDiagrams <> pathDiagram <> centersDiagram
 
-drawGraph :: Configuration -> Configuration -> DubinsPath -> Diagram B
-drawGraph startConfig endConfig dubinsPath =
+drawDubinsGraph :: DubinsPath -> Diagram B
+drawDubinsGraph dubinsPath@(DubinsPath _ _ configs) =
   let centers = drawCenters dubinsPath
-      configs = drawConfigurations startConfig endConfig
-      pathDiagram = drawPath startConfig endConfig dubinsPath
-   in configs <> pathDiagram <> centers
+      configsD = drawConfigurations (startConfig configs) (endConfig configs)
+      pathDiagram = drawPath dubinsPath
+   in configsD <> pathDiagram <> centers
 
-drawPath :: Configuration -> Configuration -> DubinsPath -> Diagram B
-drawPath startConfig endConfig (DubinsPath path params configs) =
-  let [x1, y1] = toList $ position startConfig
-      [x2, y2] = toList $ position endConfig
+drawPath :: DubinsPath -> Diagram B
+drawPath (DubinsPath path params configs) =
+  let [x1, y1] = toList $ position (startConfig configs)
+      [x2, y2] = toList $ position (endConfig configs)
       [cs1, cs2] = toList $ startCenter path
       [ce1, ce2] = toList $ endCenter path
       [z11, z12] = toList $ z1 params

@@ -1,16 +1,11 @@
 module Main (main) where
 
-import Algorithm.Control.Stanley (stanleyController)
-import Algorithm.Dubins.Dubins
-import Algorithm.Dubins.Pose
+import Algorithm.Control.Draw
+import Algorithm.Control.Type
+import Algorithm.Dubins.Draw
 import Algorithm.Dubins.Type
-import Data.Either (fromRight)
-import Data.Matrix
 import Data.Ratio
-import Example.Dubins (findDubinsPaths)
-import Example.Pose
-import Example.Utilities (incrementStateList)
-import Numeric.Interval
+import Linear
 import Simulation
 
 main :: IO ()
@@ -30,6 +25,11 @@ main = do
   print eqMultiRoundQP
 
   -- dubins
-  let dubinsPaths = findDubinsPathsE (1, 0.5) initialState eqp
+  let (dubinsPaths1, dubinsPaths2) = findDubinsPathsE (1, 0.5) initialState eqp
+
+  let vehicle1Pose = (Configuration (V2 6 0) (pi / 2))
+  let simul = stanleyControllerE vehicle1Pose dubinsPaths1 3 (StanleyGains 10 10 0.3 0) $ replicate 120 0.1
+
+  drawVehiclePose dubinsPaths1 simul
 
   print "End"

@@ -6,9 +6,7 @@ import Algorithm.Dubins.Helpers
 import Algorithm.Dubins.Type
 import Data.List (minimumBy)
 import Data.List.Split (divvy)
-import Data.Matrix
 import Data.Ord (comparing)
-import Example.Utilities hiding (distance)
 import Linear
 
 computeDubinsPaths :: MinimumRadius -> [Configuration] -> [DubinsPath]

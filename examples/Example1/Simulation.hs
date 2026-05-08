@@ -1,10 +1,13 @@
 module Simulation where
 
+import Algorithm.Control.Stanley
+import Algorithm.Control.Type
 import Algorithm.Dubins.Type
 import Example.Dubins
 import Example.Equilibrium.MultiRound
 import Example.Pose
 import Example.Type
+import Numeric.Interval
 import Objectives
 import Strategies
 
@@ -13,6 +16,12 @@ player1Moves = ['s', 'l']
 
 player2Moves :: [Char]
 player2Moves = ['s', 'l']
+
+lf :: Double
+lf = 1.372
+
+steeringLimit :: SteeringAngleLimit
+steeringLimit = (-30 ... 30) * pi / 180
 
 scenarioConfig :: MultiRoundConfiguration
 scenarioConfig =
@@ -34,3 +43,6 @@ findQuasiPerfectEquilibriumMultiRoundE = findQuasiPerfectEquilibriumMultiRound s
 
 findDubinsPathsE :: (MinimumRadius, MinimumRadius) -> [Rational] -> EquilibriumTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
 findDubinsPathsE = findDubinsPaths scenarioConfig
+
+stanleyControllerE :: VehiclePose -> ReferenceDubinsPath -> Velocity -> StanleyGains -> [TimeInstant] -> [StanleyControllerState]
+stanleyControllerE = stanleyController lf steeringLimit
