@@ -2,7 +2,6 @@ module Algorithm.Control.ODESolver where
 
 import Algorithm.Control.Type
 import Data.List (zipWith4)
-import Data.Matrix
 
 rk4Solve :: SystemDynamicsFunctionType -> Double -> [Double] -> [Double] -> [Double]
 rk4Solve stateFnc instant x u = last $ take (n + 1) $ iterate (\xs -> rk4 stateFnc h xs u) x

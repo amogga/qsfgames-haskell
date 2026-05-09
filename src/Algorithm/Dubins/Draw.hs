@@ -2,7 +2,6 @@
 
 module Algorithm.Dubins.Draw where
 
-import Algorithm.Dubins.Dubins
 import Algorithm.Dubins.Type
 import Data.Foldable (toList)
 import Data.List (nub)
