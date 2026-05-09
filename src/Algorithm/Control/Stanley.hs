@@ -12,8 +12,8 @@ import Dynamics.Models (bicDyn)
 import Linear
 import Numeric.Interval
 
-stanleyController :: Length -> SteeringAngleLimit -> VehiclePose -> ReferenceDubinsPath -> Velocity -> StanleyGains -> [TimeInstant] -> [StanleyControllerState]
-stanleyController lf steeringLimit config track v gains timeInstants = scanl (\(StanleyControllerState vehiclePose steerCntrl) timInstant -> stanleyControllerInstant lf steeringLimit vehiclePose track v steerCntrl gains timInstant) initialControllerState timeInstants
+stanleyController :: Length -> SteeringAngleLimit -> Int -> VehiclePose -> ReferenceDubinsPath -> Velocity -> StanleyGains -> TimeInstant -> [StanleyControllerState]
+stanleyController lf steeringLimit n config track v gains timeInstant = take (n + 1) $ iterate (\(StanleyControllerState vehiclePose steerCntrl) -> stanleyControllerInstant lf steeringLimit vehiclePose track v steerCntrl gains timeInstant) initialControllerState
   where
     initialControllerState = StanleyControllerState config initialSteeringAngle
     initialSteeringAngle = 0

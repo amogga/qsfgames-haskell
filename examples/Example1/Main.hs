@@ -28,7 +28,7 @@ main = do
   let (dubinsPaths1, dubinsPaths2) = findDubinsPathsE (1, 0.5) initialState eqp
 
   let vehicle1Pose = (Configuration (V2 6 0) (pi / 2))
-  let simul = stanleyControllerE vehicle1Pose dubinsPaths1 3 (StanleyGains 10 10 0.3 0) $ replicate 120 0.1
+  let simul = stanleyControllerE 120 vehicle1Pose dubinsPaths1 3 (StanleyGains 10 10 0.3 0) 0.1
 
   drawVehiclePose dubinsPaths1 simul
 

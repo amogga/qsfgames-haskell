@@ -44,5 +44,5 @@ findQuasiPerfectEquilibriumMultiRoundE = findQuasiPerfectEquilibriumMultiRound s
 findDubinsPathsE :: (MinimumRadius, MinimumRadius) -> [Rational] -> EquilibriumTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
 findDubinsPathsE = findDubinsPaths scenarioConfig
 
-stanleyControllerE :: VehiclePose -> ReferenceDubinsPath -> Velocity -> StanleyGains -> [TimeInstant] -> [StanleyControllerState]
+stanleyControllerE :: Int -> VehiclePose -> ReferenceDubinsPath -> Velocity -> StanleyGains -> TimeInstant -> [StanleyControllerState]
 stanleyControllerE = stanleyController lf steeringLimit
