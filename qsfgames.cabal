@@ -44,6 +44,7 @@ library
       Algorithm.Lemke.Variables
       Algorithm.SequenceForm
       Dynamics.Models
+      Example.Animation
       Example.Dubins
       Example.Equilibrium.AllEquilibria
       Example.Equilibrium.Equilibrium
@@ -92,11 +93,14 @@ library
     , containers
     , diagrams-cairo
     , diagrams-lib
+    , directory
     , dirichlet
+    , filepath
     , intervals
     , linear
     , matrix
     , mtl
+    , process
     , random
     , split
     , unordered-containers
@@ -132,11 +136,14 @@ executable example1
     , containers
     , diagrams-cairo
     , diagrams-lib
+    , directory
     , dirichlet
+    , filepath
     , intervals
     , linear
     , matrix
     , mtl
+    , process
     , qsfgames
     , random
     , split
@@ -173,11 +180,14 @@ executable example2
     , containers
     , diagrams-cairo
     , diagrams-lib
+    , directory
     , dirichlet
+    , filepath
     , intervals
     , linear
     , matrix
     , mtl
+    , process
     , qsfgames
     , random
     , split
@@ -211,11 +221,14 @@ executable qsfgames-exe
     , containers
     , diagrams-cairo
     , diagrams-lib
+    , directory
     , dirichlet
+    , filepath
     , intervals
     , linear
     , matrix
     , mtl
+    , process
     , qsfgames
     , random
     , split
@@ -254,13 +267,16 @@ test-suite qsfgames-test
     , containers
     , diagrams-cairo
     , diagrams-lib
+    , directory
     , dirichlet
+    , filepath
     , hspec
     , ieee754
     , intervals
     , linear
     , matrix
     , mtl
+    , process
     , qsfgames
     , random
     , split
@@ -300,12 +316,15 @@ benchmark qsfgames-bench
     , deepseq
     , diagrams-cairo
     , diagrams-lib
+    , directory
     , dirichlet
+    , filepath
     , intervals
     , linear
     , matrix
     , mtl
     , parallel
+    , process
     , qsfgames
     , random
     , split

@@ -9,11 +9,11 @@ import Data.List.Split (divvy)
 import Diagrams.Backend.Cairo
 import Diagrams.Prelude hiding (position)
 
-drawVehiclePose :: [DubinsPath] -> [StanleyControllerState] -> IO ()
-drawVehiclePose dpaths poses =
+drawVehiclePose :: FilePath -> String -> [DubinsPath] -> [StanleyControllerState] -> IO ()
+drawVehiclePose folderpath plotname dpaths poses =
   let vehiclePoses = drawGraphs (map newConfiguration poses)
       dubinspathsdiag = drawDubinsGraphs dpaths
-   in renderCairo ("plots/control/vehicle_poses.png") (dims (V2 800 800)) (bg white $ (vehiclePoses <> dubinspathsdiag) # centerXY # padX 1.3 # padY 1.1)
+   in renderCairo (folderpath ++ plotname ++ ".png") (dims (V2 800 800)) (bg white $ (vehiclePoses <> dubinspathsdiag) # centerXY # padX 1.3 # padY 1.1)
 
 drawGraphs :: [Configuration] -> Diagram B
 drawGraphs configs = mconcat $ map (\[c1, c2] -> drawGraph c1 c2) $ divvy 2 1 configs

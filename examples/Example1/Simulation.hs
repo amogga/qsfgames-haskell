@@ -1,11 +1,12 @@
 module Simulation where
 
+import Algorithm.Control.Draw
 import Algorithm.Control.Stanley
 import Algorithm.Control.Type
 import Algorithm.Dubins.Type
+import Example.Animation (createAnimation)
 import Example.Dubins
 import Example.Equilibrium.MultiRound
-import Example.Pose
 import Example.Type
 import Numeric.Interval
 import Objectives
@@ -41,8 +42,14 @@ findNormalFormPerfectEquilibriumMultiRoundE = findNormalFormPerfectEquilibriumMu
 findQuasiPerfectEquilibriumMultiRoundE :: Rational -> [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
 findQuasiPerfectEquilibriumMultiRoundE = findQuasiPerfectEquilibriumMultiRound scenarioConfig
 
-findDubinsPathsE :: (MinimumRadius, MinimumRadius) -> [Rational] -> EquilibriumTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
+findDubinsPathsE :: (MinimumRadius, MinimumRadius) -> (Configuration, Configuration) -> EquilibriumTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
 findDubinsPathsE = findDubinsPaths scenarioConfig
 
 stanleyControllerE :: Int -> VehiclePose -> ReferenceDubinsPath -> Velocity -> StanleyGains -> TimeInstant -> [StanleyControllerState]
 stanleyControllerE = stanleyController lf steeringLimit
+
+drawVehiclePoseE :: String -> [DubinsPath] -> [StanleyControllerState] -> IO ()
+drawVehiclePoseE = drawVehiclePose "examples/Example1/plots/"
+
+createAnimationE :: [StanleyControllerState] -> [StanleyControllerState] -> IO ()
+createAnimationE = createAnimation 1

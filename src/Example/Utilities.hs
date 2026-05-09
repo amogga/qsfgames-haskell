@@ -2,6 +2,7 @@
 
 module Example.Utilities where
 
+import Algorithm.Dubins.Type (Configuration (..))
 import Control.Monad (replicateM)
 import Data.Bifunctor
 import qualified Data.HashMap.Strict as HM
@@ -10,6 +11,7 @@ import Data.Matrix
 import Data.Tree
 import qualified Data.Vector as V
 import Example.Type
+import Linear
 import Type.Tree
 
 pairs :: [[Int]] -> [([Int], [Int])]
@@ -72,6 +74,13 @@ incrementState (MultiRoundConfiguration _ _ _ stateUpdate) eqp st = foldl (\stat
 
 incrementStateList :: MultiRoundConfiguration -> ([Char], [Char]) -> [Rational] -> [[Rational]]
 incrementStateList (MultiRoundConfiguration _ _ _ stateUpdate) eqp st = scanl (\state (s1, s2) -> stateUpdate 2 s2 (stateUpdate 1 s1 state)) st $ uncurry zip eqp
+
+incrementStateListDubins :: MultiRoundConfiguration -> ([Char], [Char]) -> (Configuration, Configuration) -> [[Rational]]
+incrementStateListDubins (MultiRoundConfiguration _ _ _ stateUpdate) eqp (config1, config2) = scanl (\state (s1, s2) -> stateUpdate 2 s2 (stateUpdate 1 s1 state)) st $ uncurry zip eqp
+  where
+    V2 x1 y1 = position config1
+    V2 x2 y2 = position config2
+    st = [toRational x1, toRational y1, toRational x2, toRational y2]
 
 incrementPayoff :: MultiRoundConfiguration -> ([Char], [Char]) -> [Rational] -> (Rational, Rational)
 incrementPayoff (MultiRoundConfiguration _ _ objs stateUpdate) eqp st =
