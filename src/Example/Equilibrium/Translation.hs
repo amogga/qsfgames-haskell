@@ -1,4 +1,4 @@
-module Example.Translation
+module Example.Equilibrium.Translation
     ( translateEquilibrium
     , translateEquilibriumCompact
     ) where

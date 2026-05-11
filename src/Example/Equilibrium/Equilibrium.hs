@@ -5,13 +5,9 @@ import Data.Tree
 import Type.Tree
 import Algorithm.SequenceForm
 import Algorithm.Lemke.LCP
-import Example.Translation
+import Example.Equilibrium.Translation
 import Example.Type
-import Example.SequenceForm
-import Data.Ratio
-import Data.Vector.Generic (backpermute)
 import Data.Matrix
-import qualified Data.Vector as V
 import Data.List.Split
 import Example.Equilibrium.Normalization
 

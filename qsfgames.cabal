@@ -51,9 +51,9 @@ library
       Example.Equilibrium.MultiRound
       Example.Equilibrium.Normalization
       Example.Equilibrium.SingleRound
+      Example.Equilibrium.Translation
       Example.Pose
       Example.SequenceForm
-      Example.Translation
       Example.Type
       Example.Utilities
       Type.Basic
