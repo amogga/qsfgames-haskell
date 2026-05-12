@@ -30,7 +30,6 @@ findQuasiPerfectEquilibriumWithTranslation eps sequenceFormFn player1Strategies 
         translatedEquilibrium = translateEquilibrium player1Strategies player2Strategies eqp
         eqp = findQuasiPerfectEquilibriumRaw eps sequenceFormFn tree
 
-
 findEquilibriumWithCompactTranslation :: (Tree GNode -> SequenceForm2P) -> [Char] -> [Char] -> Tree GNode -> EquilibriumCompactTranslation
 findEquilibriumWithCompactTranslation sequenceFormFn player1Strategies player2Strategies tree = translatedEquilibrium
     where

@@ -1,7 +1,4 @@
-module Example.Equilibrium.Translation
-    ( translateEquilibrium
-    , translateEquilibriumCompact
-    ) where
+module Example.Equilibrium.Translation (translateEquilibrium, translateEquilibriumCompact) where
 
 import Data.Bifunctor (Bifunctor(bimap))
 import Example.Utilities (sequenceCombinations)
@@ -20,9 +17,11 @@ translateEquilibrium player1Strategies player2Strategies (eqp1,eqp2) = (strategy
 
 -- compact translation: returns Right if pure strategy, Left if mixed
 translateEquilibriumCompact :: [Char] -> [Char] -> ([Rational],[Rational]) -> EquilibriumCompactTranslation
-translateEquilibriumCompact player1Strategies player2Strategies eqp = if isAll1 fullForm
-                                                                    then Right (bimap (fst . last) (fst . last) fullForm)
-                                                                    else Left fullForm
+translateEquilibriumCompact player1Strategies player2Strategies eqp = if isEquilibriumPure fullForm
+                                                                    then bimap (fst . last) (fst . last) fullForm
+                                                                    else (error "the  equilibrium is constain mixed strategies")
     where
         fullForm = translateEquilibrium player1Strategies player2Strategies eqp
-        isAll1 eqp' = all (== 1) $ concatMap (map snd) [fst eqp', snd eqp']
+
+isEquilibriumPure :: EquilibriumTranslation -> Bool
+isEquilibriumPure (eqp1, eqp2) = length eqp1 == 1 &&  length eqp2 == 1

@@ -11,7 +11,7 @@ type EquilibriumTranslation = ([([Char], Rational)], [([Char], Rational)])
 type StatePayoffWithProbability = ([([Rational],Probability)],Payoffs)
 
 type EquilibriumTranslationWithPayoff = ([EquilibriumTranslation],Payoffs)
-type EquilibriumCompactTranslation = Either ([([Char], Rational)], [([Char], Rational)]) ([Char], [Char])
+type EquilibriumCompactTranslation = ([Char], [Char])
 type EquilibriumCompactTranslationWithPayoff = (EquilibriumCompactTranslation, Payoffs)
 type Payoffs = (Double, Double)
 type Probability = Double

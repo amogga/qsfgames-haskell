@@ -13,7 +13,7 @@ import Linear
 
 findDubinsPoseRatios :: MultiRoundConfiguration -> (MinimumRadius, MinimumRadius) -> [Rational] -> EquilibriumCompactTranslationWithPayoff -> [SegmentLength] -> ([Configuration], [Configuration])
 findDubinsPoseRatios scenarioConfig (r1, r2) state eqp ratios = do
-  let incls = incrementStateList scenarioConfig (fromRight (error "dfaf") $ fst eqp) state
+  let incls = incrementStateList scenarioConfig (fst eqp) state
   let configs1 = map (\[x1, x2, _, _] -> Configuration (V2 (fromRational x1) (fromRational x2)) (pi / 2)) incls
   let configs2 = map (\[_, _, x3, x4] -> Configuration (V2 (fromRational x3) (fromRational x4)) (pi / 2)) incls
   let dubinsinfo1 = computeDubinsPaths r1 configs1

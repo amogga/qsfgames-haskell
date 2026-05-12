@@ -69,7 +69,7 @@ distanceM p1 p2 = foldl1 (\a b -> sqrt (a * a + b * b)) $ p1 - p2
 -- multi round
 -- TODO: rename function to be meaningful
 adjustResult :: ([Rational], [([Char], [Char])], (Rational, Rational)) -> (EquilibriumCompactTranslation, (Double, Double))
-adjustResult (_, a, b) = (Right $ combinePureEquilibria a, bimap (fromRational) (fromRational) b)
+adjustResult (_, a, b) = (combinePureEquilibria a, bimap (fromRational) (fromRational) b)
 
 combinePureEquilibria :: [([Char], [Char])] -> ([Char], [Char])
 combinePureEquilibria = foldl1 (\(a, b) (c, d) -> (a ++ c, b ++ d))

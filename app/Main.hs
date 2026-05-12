@@ -11,7 +11,7 @@ import Data.Matrix
 import Dynamics.Models (bicDyn)
 import Linear
 import Numeric.Interval
-import Example.Equilibrium.Translation (translateEquilibrium)
+import Example.Equilibrium.Translation (translateEquilibrium,translateEquilibriumCompact)
 
 main :: IO ()
 main = do
@@ -39,11 +39,10 @@ main = do
   -- let vel = 3
   -- let
   -- let initialVehiclePose = Configuration (V2 2.2 4.124) 1.5708
-  let arr = [1,1,0,1,0,0,0,1,1,1,1,1,1,1,1]
-  let res = translateEquilibrium ['s','l'] ['s','l'] ([1,1,0,1,0,0,0],[1,0.1,0.8,0,0,0.3,0.8])
-
-  print $ length arr
+  let res = translateEquilibriumCompact ['s','l'] ['s','l'] ([1,1,0,1,0,0,0],[1,0,1,0,0,0,1])
   print res
+
+  -- print res
   -- let res = stanleyControllerE initialVehiclePose dubinsPaths vel 0 gains [0, 0.1 .. 1]
   -- print res
   -- print $ mm (pi / 4) !* V2 1 0

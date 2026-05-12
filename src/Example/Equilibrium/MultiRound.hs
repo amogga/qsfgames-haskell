@@ -21,7 +21,7 @@ findQuasiPerfectEquilibriumMultiRound config eps rounds initialState = multiRoun
 
 multiRoundExecution :: MultiRoundConfiguration -> [Int] -> [Rational] -> (Int -> [Rational] -> EquilibriumCompactTranslation) -> EquilibriumCompactTranslationWithPayoff
 multiRoundExecution config@(MultiRoundConfiguration _ _ objs _) rounds initialState equilibriumFn = do 
-    let equil state stageCnt = fromRight (error "Equilibrium contain mixed strategies") $ equilibriumFn stageCnt state
+    let equil state stageCnt = equilibriumFn stageCnt state
     let initialPayoff = payoffFromState (fst objs) (snd objs) initialState
     let res = foldl (\(accState, accEqp, accPayoff) stageCnt -> 
                         let neqEqp = equil accState stageCnt 
@@ -33,7 +33,7 @@ multiRoundExecution config@(MultiRoundConfiguration _ _ objs _) rounds initialSt
 -- TODO: refine code of monad
 multiRoundExecutionIO :: MultiRoundConfiguration -> [Int] -> [Rational] -> (Int -> [Rational] -> IO EquilibriumCompactTranslation) -> IO EquilibriumCompactTranslationWithPayoff
 multiRoundExecutionIO config@(MultiRoundConfiguration _ _ objs _) rounds initialState equilibriumFn = do
-    let equil state stageCnt = fromRight (error "Equilibrium contain mixed strategies") <$> (equilibriumFn stageCnt state)
+    let equil state stageCnt = equilibriumFn stageCnt state
     let initialPayoff = payoffFromState (fst objs) (snd objs) initialState
     res <- foldM (\(accState, accEqp, accPayoff) stageCnt ->
                             ((return $ equil accState stageCnt) >>= 
@@ -42,5 +42,3 @@ multiRoundExecutionIO config@(MultiRoundConfiguration _ _ objs _) rounds initial
                                         (fst statePayoff, accEqp ++ [neqp], sumTuple accPayoff (snd statePayoff))) neqEqp)
                                                                                 )) (initialState, [], initialPayoff) rounds
     return $ adjustResult res
-
-
