@@ -9,7 +9,7 @@ import Example.Type
 import Example.Utilities (incrementStateListDubins)
 import Linear
 
-findDubinsPaths :: MultiRoundConfiguration -> (MinimumRadius, MinimumRadius) -> (Configuration, Configuration) -> EquilibriumTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
+findDubinsPaths :: MultiRoundConfiguration -> (MinimumRadius, MinimumRadius) -> (Configuration, Configuration) -> EquilibriumCompactTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
 findDubinsPaths scenarioConfig (r1, r2) iconfig eqp = do
   let incls = incrementStateListDubins scenarioConfig (fromRight (error "dfaf") $ fst eqp) iconfig
   let configs1 = map (\[x1, x2, _, _] -> Configuration (V2 (fromRational x1) (fromRational x2)) (orientation $ fst iconfig)) incls

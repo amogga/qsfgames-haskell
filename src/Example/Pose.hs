@@ -11,7 +11,7 @@ import Example.Type
 import Example.Utilities (incrementStateList)
 import Linear
 
-findDubinsPoseRatios :: MultiRoundConfiguration -> (MinimumRadius, MinimumRadius) -> [Rational] -> EquilibriumTranslationWithPayoff -> [SegmentLength] -> ([Configuration], [Configuration])
+findDubinsPoseRatios :: MultiRoundConfiguration -> (MinimumRadius, MinimumRadius) -> [Rational] -> EquilibriumCompactTranslationWithPayoff -> [SegmentLength] -> ([Configuration], [Configuration])
 findDubinsPoseRatios scenarioConfig (r1, r2) state eqp ratios = do
   let incls = incrementStateList scenarioConfig (fromRight (error "dfaf") $ fst eqp) state
   let configs1 = map (\[x1, x2, _, _] -> Configuration (V2 (fromRational x1) (fromRational x2)) (pi / 2)) incls

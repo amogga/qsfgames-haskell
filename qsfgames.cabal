@@ -50,6 +50,7 @@ library
       Example.Equilibrium.Equilibrium
       Example.Equilibrium.MultiRound
       Example.Equilibrium.Normalization
+      Example.Equilibrium.Payoffs
       Example.Equilibrium.SingleRound
       Example.Equilibrium.Translation
       Example.Pose
