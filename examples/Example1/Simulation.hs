@@ -11,6 +11,7 @@ import Example.Type
 import Numeric.Interval
 import Objectives
 import Strategies
+import Example.Equilibrium.Payoffs
 
 player1Moves :: [Char]
 player1Moves = ['s', 'l']
@@ -33,16 +34,19 @@ scenarioConfig =
       stateUpdate = \playerNumber strategy state -> if strategy == 's' then straightInLaneState state playerNumber else changeLaneState state playerNumber
     }
 
-findEquilibriumMultiRoundE :: [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
+findEquilibriumMultiRoundE :: [Int] -> [Rational] -> EquilibriumCompactTranslationWithPayoff
 findEquilibriumMultiRoundE = findEquilibriumMultiRound scenarioConfig
 
-findNormalFormPerfectEquilibriumMultiRoundE :: [Int] -> [Rational] -> IO EquilibriumTranslationWithPayoff
+findNormalFormPerfectEquilibriumMultiRoundE :: [Int] -> [Rational] -> IO EquilibriumCompactTranslationWithPayoff
 findNormalFormPerfectEquilibriumMultiRoundE = findNormalFormPerfectEquilibriumMultiRound scenarioConfig
 
-findQuasiPerfectEquilibriumMultiRoundE :: Rational -> [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
+findQuasiPerfectEquilibriumMultiRoundE :: Rational -> [Int] -> [Rational] -> EquilibriumCompactTranslationWithPayoff
 findQuasiPerfectEquilibriumMultiRoundE = findQuasiPerfectEquilibriumMultiRound scenarioConfig
 
-findDubinsPathsE :: (MinimumRadius, MinimumRadius) -> (Configuration, Configuration) -> EquilibriumTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
+incrementStatePayoffGeneralE :: EquilibriumTranslation -> [Rational] -> StatePayoffWithProbability
+incrementStatePayoffGeneralE = incrementStatePayoffGeneral scenarioConfig
+
+findDubinsPathsE :: (MinimumRadius, MinimumRadius) -> (Configuration, Configuration) -> EquilibriumCompactTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
 findDubinsPathsE = findDubinsPaths scenarioConfig
 
 stanleyControllerE :: Int -> VehiclePose -> ReferenceDubinsPath -> Velocity -> StanleyGains -> TimeInstant -> [StanleyControllerState]

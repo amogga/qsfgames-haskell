@@ -7,19 +7,19 @@ import Example.Equilibrium.SingleRound
 import Control.Monad
 import Example.Utilities
 
--- Each element in the rounds list specifies the number of stages for that round.
-findEquilibriumMultiRound :: MultiRoundConfiguration -> [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
-findEquilibriumMultiRound config rounds initialState = multiRoundExecution config rounds initialState (findEquilibriumSingleRound config)
+-- Multiround execution is only valid for pure strategy game partitions
+-- Each element in the rounds list specifies the number of stages for that round
+findEquilibriumMultiRound :: MultiRoundConfiguration -> [Int] -> [Rational] -> EquilibriumCompactTranslationWithPayoff
+findEquilibriumMultiRound config rounds initialState = multiRoundExecution config rounds initialState (findEquilibriumSingleRoundCompact config)
 
-findNormalFormPerfectEquilibriumMultiRound :: MultiRoundConfiguration -> [Int] -> [Rational] -> IO EquilibriumTranslationWithPayoff
+findNormalFormPerfectEquilibriumMultiRound :: MultiRoundConfiguration -> [Int] -> [Rational] -> IO EquilibriumCompactTranslationWithPayoff
 findNormalFormPerfectEquilibriumMultiRound config rounds initialState = do 
-  multiRoundExecutionIO config rounds initialState (findNormalFormPerfectEquilibriumSingleRound config)
+  multiRoundExecutionIO config rounds initialState (findNormalFormPerfectEquilibriumSingleRoundCompact config)
 
-findQuasiPerfectEquilibriumMultiRound :: MultiRoundConfiguration -> Rational -> [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
-findQuasiPerfectEquilibriumMultiRound config eps rounds initialState = multiRoundExecution config rounds initialState (findQuasiPerfectEquilibriumSingleRound config eps)
+findQuasiPerfectEquilibriumMultiRound :: MultiRoundConfiguration -> Rational -> [Int] -> [Rational] -> EquilibriumCompactTranslationWithPayoff
+findQuasiPerfectEquilibriumMultiRound config eps rounds initialState = multiRoundExecution config rounds initialState (findQuasiPerfectEquilibriumSingleRoundCompact config eps)
 
--- TODO: show mixed strategies by returning Left result
-multiRoundExecution :: MultiRoundConfiguration -> [Int] -> [Rational] -> (Int -> [Rational] -> EquilibriumTranslation) -> EquilibriumTranslationWithPayoff
+multiRoundExecution :: MultiRoundConfiguration -> [Int] -> [Rational] -> (Int -> [Rational] -> EquilibriumCompactTranslation) -> EquilibriumCompactTranslationWithPayoff
 multiRoundExecution config@(MultiRoundConfiguration _ _ objs _) rounds initialState equilibriumFn = do 
     let equil state stageCnt = fromRight (error "Equilibrium contain mixed strategies") $ equilibriumFn stageCnt state
     let initialPayoff = payoffFromState (fst objs) (snd objs) initialState
@@ -31,7 +31,7 @@ multiRoundExecution config@(MultiRoundConfiguration _ _ objs _) rounds initialSt
     adjustResult res
   
 -- TODO: refine code of monad
-multiRoundExecutionIO :: MultiRoundConfiguration -> [Int] -> [Rational] -> (Int -> [Rational] -> IO EquilibriumTranslation) -> IO EquilibriumTranslationWithPayoff
+multiRoundExecutionIO :: MultiRoundConfiguration -> [Int] -> [Rational] -> (Int -> [Rational] -> IO EquilibriumCompactTranslation) -> IO EquilibriumCompactTranslationWithPayoff
 multiRoundExecutionIO config@(MultiRoundConfiguration _ _ objs _) rounds initialState equilibriumFn = do
     let equil state stageCnt = fromRight (error "Equilibrium contain mixed strategies") <$> (equilibriumFn stageCnt state)
     let initialPayoff = payoffFromState (fst objs) (snd objs) initialState
@@ -42,3 +42,5 @@ multiRoundExecutionIO config@(MultiRoundConfiguration _ _ objs _) rounds initial
                                         (fst statePayoff, accEqp ++ [neqp], sumTuple accPayoff (snd statePayoff))) neqEqp)
                                                                                 )) (initialState, [], initialPayoff) rounds
     return $ adjustResult res
+
+

@@ -11,33 +11,39 @@ import Data.Matrix
 import Dynamics.Models (bicDyn)
 import Linear
 import Numeric.Interval
+import Example.Equilibrium.Translation (translateEquilibrium)
 
 main :: IO ()
 main = do
-  let r = 2
-  let config1 = Configuration (V2 1.1 2) (pi / 2)
-  let config2 = Configuration (V2 3 6.43) (pi / 3.3)
-  let config3 = Configuration (V2 7 11) (pi / 1.4)
-  let config4 = Configuration (V2 12 23.43) (pi / 3)
+  -- let r = 2
+  -- let config1 = Configuration (V2 1.1 2) (pi / 2)
+  -- let config2 = Configuration (V2 3 6.43) (pi / 3.3)
+  -- let config3 = Configuration (V2 7 11) (pi / 1.4)
+  -- let config4 = Configuration (V2 12 23.43) (pi / 3)
 
-  let configs = [config1, config2, config3, config4]
-  let dubinsPaths = computeDubinsPaths r configs
+  -- let configs = [config1, config2, config3, config4]
+  -- let dubinsPaths = computeDubinsPaths r configs
 
-  let path1 = dubinsPaths !! 0
+  -- let path1 = dubinsPaths !! 0
 
-  let p = V2 2.2 4.124
-  -- let (DubinsParameters zz1 zz2 dir1 dir2) = parameters path1
-  -- let (DubinsInfo _ stcntr endstr r cs1 ss cs2) = path path1
-  -- let (DubinsConfigurations startPnt endPnt) = configurations path1
+  -- let p = V2 2.2 4.124
+  -- -- let (DubinsParameters zz1 zz2 dir1 dir2) = parameters path1
+  -- -- let (DubinsInfo _ stcntr endstr r cs1 ss cs2) = path path1
+  -- -- let (DubinsConfigurations startPnt endPnt) = configurations path1
 
-  -- -- print $ findNearestInfoOnDubinsPath path1 (Configuration (V2 2.2 4.124) 0)
-  print $ findNearestInfoOnDubinsPaths dubinsPaths (Configuration (V2 2.2 4.124) 0)
-  -- let mm th = V2 (V2 (cos th) (-sin th)) (V2 (sin th) (cos th))
-  --
-  let gains = (StanleyGains 10 10 0 0)
-  let vel = 3
-  let
-  let initialVehiclePose = Configuration (V2 2.2 4.124) 1.5708
+  -- -- -- print $ findNearestInfoOnDubinsPath path1 (Configuration (V2 2.2 4.124) 0)
+  -- print $ findNearestInfoOnDubinsPaths dubinsPaths (Configuration (V2 2.2 4.124) 0)
+  -- -- let mm th = V2 (V2 (cos th) (-sin th)) (V2 (sin th) (cos th))
+  -- --
+  -- let gains = (StanleyGains 10 10 0 0)
+  -- let vel = 3
+  -- let
+  -- let initialVehiclePose = Configuration (V2 2.2 4.124) 1.5708
+  let arr = [1,1,0,1,0,0,0,1,1,1,1,1,1,1,1]
+  let res = translateEquilibrium ['s','l'] ['s','l'] ([1,1,0,1,0,0,0],[1,0.1,0.8,0,0,0.3,0.8])
+
+  print $ length arr
+  print res
   -- let res = stanleyControllerE initialVehiclePose dubinsPaths vel 0 gains [0, 0.1 .. 1]
   -- print res
   -- print $ mm (pi / 4) !* V2 1 0

@@ -34,19 +34,19 @@ scenarioConfig =
       stateUpdate = \playerNumber strategy state -> if strategy == 's' then straightInLaneState state playerNumber else changeLaneState state playerNumber
     }
 
-findAllEquilibriaE :: [Int] -> [Rational] -> IO [EquilibriumTranslationWithPayoff]
+findAllEquilibriaE :: [Int] -> [Rational] -> IO [EquilibriumCompactTranslationWithPayoff]
 findAllEquilibriaE = findAllEquilibria 5 scenarioConfig
 
-findEquilibriumMultiRoundE :: [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
+findEquilibriumMultiRoundE :: [Int] -> [Rational] -> EquilibriumCompactTranslationWithPayoff
 findEquilibriumMultiRoundE = findEquilibriumMultiRound scenarioConfig
 
-findNormalFormPerfectEquilibriumMultiRoundE :: [Int] -> [Rational] -> IO EquilibriumTranslationWithPayoff
+findNormalFormPerfectEquilibriumMultiRoundE :: [Int] -> [Rational] -> IO EquilibriumCompactTranslationWithPayoff
 findNormalFormPerfectEquilibriumMultiRoundE = findNormalFormPerfectEquilibriumMultiRound scenarioConfig
 
-findQuasiPerfectEquilibriumMultiRoundE :: Rational -> [Int] -> [Rational] -> EquilibriumTranslationWithPayoff
+findQuasiPerfectEquilibriumMultiRoundE :: Rational -> [Int] -> [Rational] -> EquilibriumCompactTranslationWithPayoff
 findQuasiPerfectEquilibriumMultiRoundE = findQuasiPerfectEquilibriumMultiRound scenarioConfig
 
-findDubinsPathsE :: (MinimumRadius, MinimumRadius) -> (Configuration, Configuration) -> EquilibriumTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
+findDubinsPathsE :: (MinimumRadius, MinimumRadius) -> (Configuration, Configuration) -> EquilibriumCompactTranslationWithPayoff -> ([DubinsPath], [DubinsPath])
 findDubinsPathsE = findDubinsPaths scenarioConfig
 
 stanleyControllerE :: Int -> VehiclePose -> ReferenceDubinsPath -> Velocity -> StanleyGains -> TimeInstant -> [StanleyControllerState]

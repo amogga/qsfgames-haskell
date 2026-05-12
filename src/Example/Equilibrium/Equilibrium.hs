@@ -11,20 +11,40 @@ import Data.Matrix
 import Data.List.Split
 import Example.Equilibrium.Normalization
 
+
 findEquilibriumWithTranslation :: (Tree GNode -> SequenceForm2P) -> [Char] -> [Char] -> Tree GNode -> EquilibriumTranslation
 findEquilibriumWithTranslation sequenceFormFn player1Strategies player2Strategies tree = translatedEquilibrium
     where
-        translatedEquilibrium = translateEquilibriumCompact player1Strategies player2Strategies eqp
+        translatedEquilibrium = translateEquilibrium player1Strategies player2Strategies eqp
         eqp = findEquilibriumRaw sequenceFormFn tree
 
 findNormalFormPerfectEquilibriumWithTranslation :: (Tree GNode -> SequenceForm2P) -> [Char] -> [Char] -> Tree GNode -> IO EquilibriumTranslation
 findNormalFormPerfectEquilibriumWithTranslation sequenceFormFn player1Strategies player2Strategies tree = translatedEquilibrium
     where
-        translatedEquilibrium = translateEquilibriumCompact player1Strategies player2Strategies <$> eqp
+        translatedEquilibrium = translateEquilibrium player1Strategies player2Strategies <$> eqp
         eqp = findNormalFormPerfectEquilibriumRaw sequenceFormFn tree
 
 findQuasiPerfectEquilibriumWithTranslation :: Rational -> (Tree GNode -> Rational -> SequenceForm2P) -> [Char] -> [Char] -> Tree GNode -> EquilibriumTranslation
 findQuasiPerfectEquilibriumWithTranslation eps sequenceFormFn player1Strategies player2Strategies tree = translatedEquilibrium
+    where
+        translatedEquilibrium = translateEquilibrium player1Strategies player2Strategies eqp
+        eqp = findQuasiPerfectEquilibriumRaw eps sequenceFormFn tree
+
+
+findEquilibriumWithCompactTranslation :: (Tree GNode -> SequenceForm2P) -> [Char] -> [Char] -> Tree GNode -> EquilibriumCompactTranslation
+findEquilibriumWithCompactTranslation sequenceFormFn player1Strategies player2Strategies tree = translatedEquilibrium
+    where
+        translatedEquilibrium = translateEquilibriumCompact player1Strategies player2Strategies eqp
+        eqp = findEquilibriumRaw sequenceFormFn tree
+
+findNormalFormPerfectEquilibriumWithCompactTranslation :: (Tree GNode -> SequenceForm2P) -> [Char] -> [Char] -> Tree GNode -> IO EquilibriumCompactTranslation
+findNormalFormPerfectEquilibriumWithCompactTranslation sequenceFormFn player1Strategies player2Strategies tree = translatedEquilibrium
+    where
+        translatedEquilibrium = translateEquilibriumCompact player1Strategies player2Strategies <$> eqp
+        eqp = findNormalFormPerfectEquilibriumRaw sequenceFormFn tree
+
+findQuasiPerfectEquilibriumWithCompactTranslation :: Rational -> (Tree GNode -> Rational -> SequenceForm2P) -> [Char] -> [Char] -> Tree GNode -> EquilibriumCompactTranslation
+findQuasiPerfectEquilibriumWithCompactTranslation eps sequenceFormFn player1Strategies player2Strategies tree = translatedEquilibrium
     where
         translatedEquilibrium = translateEquilibriumCompact player1Strategies player2Strategies eqp
         eqp = findQuasiPerfectEquilibriumRaw eps sequenceFormFn tree

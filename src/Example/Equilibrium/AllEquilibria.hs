@@ -5,13 +5,13 @@ import Example.Type
 import Control.Monad
 import Data.List (nub)
     
-findAllEquilibria10 :: MultiRoundConfiguration -> [Int] -> [Rational] -> IO [EquilibriumTranslationWithPayoff]
+findAllEquilibria10 :: MultiRoundConfiguration -> [Int] -> [Rational] -> IO [EquilibriumCompactTranslationWithPayoff]
 findAllEquilibria10 = findAllEquilibria 10
 
-findAllEquilibria5 :: MultiRoundConfiguration -> [Int] -> [Rational] -> IO [EquilibriumTranslationWithPayoff]
+findAllEquilibria5 :: MultiRoundConfiguration -> [Int] -> [Rational] -> IO [EquilibriumCompactTranslationWithPayoff]
 findAllEquilibria5 = findAllEquilibria 5
 
-findAllEquilibria :: Int -> MultiRoundConfiguration -> [Int] -> [Rational] -> IO [EquilibriumTranslationWithPayoff]
+findAllEquilibria :: Int -> MultiRoundConfiguration -> [Int] -> [Rational] -> IO [EquilibriumCompactTranslationWithPayoff]
 findAllEquilibria rep config rounds initialState = do 
     res <- replicateM rep $ findNormalFormPerfectEquilibriumMultiRound config rounds initialState
     return $ nub res

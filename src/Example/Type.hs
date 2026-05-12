@@ -6,19 +6,15 @@ import Type.Tree
 -- Equilibrium translation result:
 -- Left: mixed strategy equilibrium with probabilities
 -- Right: pure strategy equilibrium
-type EquilibriumTranslation = Either ([([Char], Rational)], [([Char], Rational)]) ([Char], [Char])
-type EquilibriumTranslationWithPayoff = (Either ([([Char], Rational)], [([Char], Rational)]) ([Char], [Char]), (Double, Double))
 
+type EquilibriumTranslation = ([([Char], Rational)], [([Char], Rational)])
+type StatePayoffWithProbability = ([([Rational],Probability)],Payoffs)
 
--- configuration for multi-round equilibrium computation
-data MultiRoundConfig = MultiRoundConfig
-    { mrcPlayer1Strategies :: [Char]
-    , mrcPlayer2Strategies :: [Char]
-    , mrcStrategies :: [GNode -> GNode]
-    , mrcPayoffFn :: [Rational] -> (Rational, Rational)
-    , mrcStateUpdateP1 :: [Rational] -> Char -> [Rational]
-    , mrcStateUpdateP2 :: [Rational] -> Char -> [Rational]
-    }
+type EquilibriumTranslationWithPayoff = ([EquilibriumTranslation],Payoffs)
+type EquilibriumCompactTranslation = Either ([([Char], Rational)], [([Char], Rational)]) ([Char], [Char])
+type EquilibriumCompactTranslationWithPayoff = (EquilibriumCompactTranslation, Payoffs)
+type Payoffs = (Double, Double)
+type Probability = Double
     
 data MultiRoundConfiguration = MultiRoundConfiguration { 
                                 movesIndication :: ([Char], [Char]),

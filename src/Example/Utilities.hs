@@ -23,6 +23,12 @@ sumTuple (a1, a2) (b1, b2) = (a1 + b1, a2 + b2)
 sumTuple3 :: (Num a) => (a, a) -> (a, a) -> (a, a) -> (a, a)
 sumTuple3 (a1, a2) (b1, b2) (c1, c2) = (a1 + b1 + c1, a2 + b2 + c2)
 
+probMulTuple3 :: Rational -> Rational -> (Rational, Rational) -> (Rational, Rational)
+probMulTuple3 pr1 pr2 (t1,t2) = (pr1 * pr2 * t1, pr1 * pr2 * t2)
+
+payoffAsDouble :: (Rational, Rational) -> (Double, Double)
+payoffAsDouble (t1,t2) = (fromRational t1, fromRational t2)
+
 leavePayoffs :: Tree GNode -> [GNode]
 leavePayoffs = last . levels
 
@@ -62,7 +68,7 @@ distanceM p1 p2 = foldl1 (\a b -> sqrt (a * a + b * b)) $ p1 - p2
 
 -- multi round
 -- TODO: rename function to be meaningful
-adjustResult :: ([Rational], [([Char], [Char])], (Rational, Rational)) -> (EquilibriumTranslation, (Double, Double))
+adjustResult :: ([Rational], [([Char], [Char])], (Rational, Rational)) -> (EquilibriumCompactTranslation, (Double, Double))
 adjustResult (_, a, b) = (Right $ combinePureEquilibria a, bimap (fromRational) (fromRational) b)
 
 combinePureEquilibria :: [([Char], [Char])] -> ([Char], [Char])
@@ -112,3 +118,5 @@ incrementStatePayoff (MultiRoundConfiguration _ _ objs stateUpdate) eqp st =
     $ uncurry zip eqp
   where
     pfFromState = payoffFromState (fst objs) (snd objs)
+
+
