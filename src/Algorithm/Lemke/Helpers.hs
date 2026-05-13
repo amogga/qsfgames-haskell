@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
-module Algorithm.Lemke.Helpers ( buildTableau, extractSolution, getMinPositiveRatioPositionsRHS, getMinSmallestIndexPositions, getMinNegativePosition, unitVector) where
+module Algorithm.Lemke.Helpers ( buildTableau, extractSolution, getMinPositiveRatioPositionsRHS, getMinSmallestIndexPositions, getMinNegativePosition, unitVector, vecFromRational, vecToRational) where
 
 import Data.Matrix
 import Algorithm.Lemke.Type
@@ -57,3 +57,9 @@ filterWithIndices xs ys = unzip3 $ filter (\(x,_,_) -> x > 0) $ zip3 xs ys [1..]
 
 unitVector :: Int -> V.Vector Rational
 unitVector n = V.replicate n 0 V.// [(0, 1)]
+
+vecFromRational :: V.Vector Rational -> V.Vector Double
+vecFromRational = V.map fromRational
+
+vecToRational :: V.Vector Double -> V.Vector Rational
+vecToRational = V.map toRational
