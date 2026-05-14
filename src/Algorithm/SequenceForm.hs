@@ -2,7 +2,7 @@
 {-# LANGUAGE GADTs #-}
 {-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
 {-# OPTIONS_GHC -Wno-partial-fields #-}
-module Algorithm.SequenceForm (SequenceForm2P(..), buildLCPProblem, buildLCPProblemPerfect, buildLCPProblemQuasiPerfect, isValidLCPProblem) where
+module Algorithm.SequenceForm (SequenceForm2P(..), buildLCPProblem, buildLCPProblemPerfect, buildLCPProblemQuasiPerfect) where
 
 import Algorithm.Lemke.Type
 import Algorithm.Lemke.Dirichlet (computeMixedStartingVector)
@@ -79,7 +79,3 @@ buildLCPProblemQuasiPerfect (SequenceForm2PQP a b e f k l) = LCPProblem m q
 
     ee = unitVector (nrows e)
     ff = unitVector (nrows f)
-
-isValidLCPProblem :: LCPProblem -> Bool
-isValidLCPProblem (LCPProblemD m _ _) = let z = matrix (ncols m) 1 (const 1) in not (((transpose z * m * z) ! (1,1)) < 0)
-isValidLCPProblem (LCPProblem m _) = let z = matrix (ncols m) 1 (const 1) in not (((transpose z * m * z) ! (1,1)) < 0)

@@ -9,9 +9,8 @@ import Algorithm.Lemke.Type
 import Algorithm.SequenceForm
 import Data.List.Split
 import Data.Either (fromRight)
-import System.Random (setStdGen, mkStdGen)
 import qualified Data.Vector as V
-import Algorithm.Lemke.Helpers (vecFromRational, unitVector)
+import Algorithm.Lemke.Helpers (unitVector)
 
 spec :: Spec
 spec = do
@@ -175,9 +174,6 @@ spec = do
 
             q1 `shouldBe` -a*l
             q2 `shouldBe` (-transpose b * k)
-
-
-
 
 retrieveMixedVector  :: Matrix Rational -> Matrix Rational -> Matrix Rational -> V.Vector Rational 
 retrieveMixedVector payoffMat constraintMat dRepV = getCol 1 $ iac * transpose payoffConst * vt
