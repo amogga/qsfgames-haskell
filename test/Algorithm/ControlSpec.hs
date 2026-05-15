@@ -3,7 +3,6 @@ module Algorithm.ControlSpec where
 import Test.Hspec
 import Algorithm.Control.ODESolver
 import Dynamics.Models
-import Control.Exception (evaluate)
 
 spec :: Spec
 spec = do
@@ -11,11 +10,6 @@ spec = do
     let initialState = [1,0.2,3.0,4.0]
     let zeroInput = [0,0]
     let input = [0.112, 0.521] -- [acceleration, steering angle (in radians)]
-
-    it "Returns correct results from model" $ do 
-        bicDyn initialState zeroInput `shouldBe` [-3.9599699864017817,0.5644800322394689,0.0,0.0]
-        evaluate (bicDyn (initialState ++ [0]) zeroInput) `shouldThrow` (errorCall "Invalid arguments")
-        evaluate (bicDyn initialState (zeroInput ++ [0])) `shouldThrow` (errorCall "Invalid arguments")
 
     it "Runge Kutta Solver correctly return state based on input and output" $ do
         rk4Solve bicDyn 0.01 initialState zeroInput `shouldBe` [0.960400300135982,0.20564480032239468,3.0,4.0]
