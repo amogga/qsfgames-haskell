@@ -1,4 +1,4 @@
-module Main (main) where
+module Example1 (main) where
 
 import Algorithm.Control.Type
 import Algorithm.Dubins.Type

@@ -1,4 +1,4 @@
-module Main (main) where
+module Example2 (main) where
 
 import Algorithm.Control.Type (StanleyGains (..))
 import Algorithm.Dubins.Type (Configuration (..))
