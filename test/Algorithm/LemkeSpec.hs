@@ -34,6 +34,13 @@ spec = do
             lemke (LCPProblem m q) `shouldBe` [0, 1]
 
         it "(4) Produces a valid Lemke solution" $ do
+            let m = fromLists [[2, 1],
+                               [1, 2]] :: Matrix Rational
+            let q = fromList 2 1 [-1, -1] :: Matrix Rational
+            
+            lemke (LCPProblem m q) `shouldBe` [1%3, 1%3]
+
+        it "(5) Produces a valid Lemke solution" $ do
             let m = fromLists [[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, -1,  0, -1,  1,  0,  0,  0,  0,  0,  0,  0],
                                [ 0,  0,  0,  0,  0,  0,  1,  9,  0,  0,  0,  1,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0],
                                [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, -1,  0, -1,  1,  0,  0,  0,  0,  0,  0],
