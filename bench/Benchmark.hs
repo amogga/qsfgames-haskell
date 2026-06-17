@@ -15,7 +15,7 @@ main :: IO ()
 main = do
 
     -- Common parameters
-    let initialState = [2, 5, 6, 5] :: [Rational]
+    let initialState = [6, 0, 6, 6] :: [Rational]
     let eps = 1 % 10 :: Rational
 
     let rnds1 = replicate 12 1
