@@ -7,3 +7,4 @@ dist
 .zed
 iters
 qsfgames.cabal
+*.prof
