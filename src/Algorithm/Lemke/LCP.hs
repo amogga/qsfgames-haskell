@@ -34,10 +34,10 @@ computeTableau lemkeTableau = do
 pivot :: LemkeTableau -> LemkeVariables -> LemkeTableau
 pivot (LemkeTableau tabl cstate) (LemkeVariables blockingVarIdx _ drivingVar) = LemkeTableau newTableau newState
     where
-        newTableau = fromLists $ map (V.toList . pivotConditionV) [1..nrows tabl]
-        pivotConditionV rowIndex
-          | rowIndex == blockingVarIdx = pivotingRowV
-          | otherwise = V.zipWith (-) (getRow rowIndex tabl)
-                                      (V.map (* (tabl ! (rowIndex, drivingVar))) pivotingRowV)
-        pivotingRowV = V.map (/ (tabl ! (blockingVarIdx, drivingVar))) (getRow blockingVarIdx tabl)
+        newTableau = matrix (nrows tabl) (ncols tabl) $ \(i, j) ->
+            if i == blockingVarIdx
+              then pivotingRowV V.! (j - 1)
+              else tabl ! (i, j) - drivingCol V.! (i - 1) * pivotingRowV V.! (j - 1)
+        pivotingRowV = V.map (/ tabl ! (blockingVarIdx, drivingVar)) (getRow blockingVarIdx tabl)
+        drivingCol = getCol drivingVar tabl
         newState = cstate V.// [(blockingVarIdx-1, drivingVar)]
