@@ -29,7 +29,7 @@ main = do
   -- dubins
   let vehicle1Pose = (Configuration (V2 6 0) (pi / 2))
   let vehicle2Pose = (Configuration (V2 6 40) (-pi / 2))
-  let (dubinsPaths1, dubinsPaths2) = findDubinsPathsE (1, 0.5) (vehicle1Pose, vehicle2Pose) eqp
+  let (dubinsPaths1, dubinsPaths2) = findDubinsPathsE (1, 0.5) (vehicle1Pose, vehicle2Pose) eqMultiRoundQP
 
   -- controller
 
